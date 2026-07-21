@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Briefcase, ChevronLeft, ChevronRight } from 'lucide-react';
 import PortfolioCard from '../PortfolioCard';
+import LightboxModal from '../LightboxModal';
 
 interface PortfolioSectionProps {
   proyectos: any[];
@@ -11,6 +12,26 @@ interface PortfolioSectionProps {
 export default function PortfolioSection({ proyectos }: PortfolioSectionProps) {
   const [activePage, setActivePage] = useState(0);
   const [isMobileView, setIsMobileView] = useState(false);
+  const [lightboxData, setLightboxData] = useState<{
+    isOpen: boolean;
+    images: Array<{ url: string; alt: string }>;
+    title: string;
+  }>({
+    isOpen: false,
+    images: [],
+    title: ''
+  });
+
+  const handleOpenLightbox = (data: { images: Array<{ url: string; alt: string }>; title: string }) => {
+    setLightboxData({
+      isOpen: true,
+      ...data
+    });
+  };
+
+  const handleCloseLightbox = () => {
+    setLightboxData(prev => ({ ...prev, isOpen: false }));
+  };
 
   // Detectar el tamaño de la pantalla para alternar entre el slider y el paginador
   useEffect(() => {
@@ -34,29 +55,78 @@ export default function PortfolioSection({ proyectos }: PortfolioSectionProps) {
     projectChunks.push(proyectos.slice(i, i + chunkSize));
   }
 
+  const scrollToPortfolioTop = () => {
+    const el = document.getElementById('proyectos');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const handlePrev = () => {
-    setActivePage((prev) => Math.max(0, prev - 1));
+    setActivePage((prev) => {
+      const next = Math.max(0, prev - 1);
+      if (next !== prev) scrollToPortfolioTop();
+      return next;
+    });
   };
 
   const handleNext = () => {
-    setActivePage((prev) => Math.min(totalPages - 1, prev + 1));
+    setActivePage((prev) => {
+      const next = Math.min(totalPages - 1, prev + 1);
+      if (next !== prev) scrollToPortfolioTop();
+      return next;
+    });
+  };
+
+  const handlePageSelect = (pageIndex: number) => {
+    setActivePage((prev) => {
+      if (prev !== pageIndex) scrollToPortfolioTop();
+      return pageIndex;
+    });
   };
 
   return (
     <section id="proyectos" className="space-y-8 scroll-margin-top">
-      <h2 className="text-3xl font-bold text-primary flex items-center gap-3">
-        <Briefcase size={32} /> Portfolio
-      </h2>
+      {/* Cabecera de la Sección Portfolio */}
+      <div className="flex justify-between items-center">
+        <h2 className="text-3xl font-bold text-primary flex items-center gap-3">
+          <Briefcase size={32} /> Portfolio
+        </h2>
+
+        {/* Flechas de Navegación superior (versión escritorio) */}
+        {!isMobileView && totalPages > 1 && (
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handlePrev}
+              disabled={activePage === 0}
+              className="p-2.5 rounded-lg bg-panel border border-primary/30 text-primary hover:bg-primary hover:text-white hover:border-primary disabled:opacity-30 disabled:pointer-events-none hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer shadow-md shadow-primary/10"
+              aria-label="Página anterior"
+              title="Página anterior"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button
+              onClick={handleNext}
+              disabled={activePage === totalPages - 1}
+              className="p-2.5 rounded-lg bg-panel border border-primary/30 text-primary hover:bg-primary hover:text-white hover:border-primary disabled:opacity-30 disabled:pointer-events-none hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer shadow-md shadow-primary/10"
+              aria-label="Página siguiente"
+              title="Página siguiente"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        )}
+      </div>
 
       {isMobileView ? (
         // ================= VISTA MÓVIL / TABLET (PAGINADOR NUMÉRICO) =================
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 min-h-[400px]">
+        <div className="space-y-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 items-stretch">
             {projectChunks[activePage]?.map((p: any, idx: number) => {
               const node = p.node;
               const details = node.detallesDelProyecto || {};
               return (
-                <div key={node.id || idx} className="animate-fade-in">
+                <div key={node.id || idx} className="animate-fade-in h-full flex flex-col">
                   <PortfolioCard
                     title={node.title}
                     excerpt={details.descripcionDelProyecto || node.excerpt || ''}
@@ -66,6 +136,10 @@ export default function PortfolioSection({ proyectos }: PortfolioSectionProps) {
                     role={details.rolPuesto}
                     year={details.anodelproyecto}
                     imageUrl={node.featuredImage}
+                    imageAlt={node.imageAlt}
+                    gallery={node.gallery}
+                    categories={node.categories}
+                    onOpenLightbox={handleOpenLightbox}
                   />
                 </div>
               );
@@ -73,11 +147,11 @@ export default function PortfolioSection({ proyectos }: PortfolioSectionProps) {
           </div>
 
           {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-2 pt-4">
+            <div className="flex justify-center items-center gap-2 pt-6">
               <button
                 onClick={handlePrev}
                 disabled={activePage === 0}
-                className="p-2 rounded-lg bg-panel border border-panel-border text-muted hover:text-primary disabled:opacity-30 disabled:hover:text-muted transition-colors cursor-pointer"
+                className="p-2 rounded-lg bg-panel border border-primary/30 text-primary hover:bg-primary hover:text-white disabled:opacity-30 disabled:hover:text-muted transition-colors cursor-pointer"
                 aria-label="Página anterior"
               >
                 <ChevronLeft size={20} />
@@ -87,7 +161,7 @@ export default function PortfolioSection({ proyectos }: PortfolioSectionProps) {
                 {Array.from({ length: totalPages }).map((_, idx) => (
                   <button
                     key={idx}
-                    onClick={() => setActivePage(idx)}
+                    onClick={() => handlePageSelect(idx)}
                     className={`w-9 h-9 rounded-lg font-bold text-sm border transition-all duration-300 cursor-pointer ${
                       activePage === idx
                         ? 'bg-primary border-primary text-white shadow-lg shadow-primary/20 scale-105'
@@ -102,7 +176,7 @@ export default function PortfolioSection({ proyectos }: PortfolioSectionProps) {
               <button
                 onClick={handleNext}
                 disabled={activePage === totalPages - 1}
-                className="p-2 rounded-lg bg-panel border border-panel-border text-muted hover:text-primary disabled:opacity-30 disabled:hover:text-muted transition-colors cursor-pointer"
+                className="p-2 rounded-lg bg-panel border border-primary/30 text-primary hover:bg-primary hover:text-white disabled:opacity-30 disabled:hover:text-muted transition-colors cursor-pointer"
                 aria-label="Página siguiente"
               >
                 <ChevronRight size={20} />
@@ -111,80 +185,60 @@ export default function PortfolioSection({ proyectos }: PortfolioSectionProps) {
           )}
         </div>
       ) : (
-        // ================= VISTA ESCRITORIO (SLIDER CON PUNTOS Y FLECHAS) =================
-        <div className="relative group/slider space-y-6">
-          <div className="overflow-hidden w-full rounded-xl p-4 -m-4">
-            <div 
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{ transform: `translateX(-${activePage * 100}%)` }}
-            >
-              {projectChunks.map((chunk, chunkIdx) => (
-                <div key={chunkIdx} className="w-full shrink-0 px-1">
-                  <div className="grid grid-cols-3 gap-6">
-                    {chunk.map((p: any, idx: number) => {
-                      const node = p.node;
-                      const details = node.detallesDelProyecto || {};
-                      return (
-                        <PortfolioCard
-                          key={node.id || idx}
-                          title={node.title}
-                          excerpt={details.descripcionDelProyecto || node.excerpt || ''}
-                          url={details.urlDelProyecto}
-                          repoUrl={details.enlaceAlRepositorioUrl}
-                          tech={details.tecnologias}
-                          role={details.rolPuesto}
-                          year={details.anodelproyecto}
-                          imageUrl={node.featuredImage}
-                        />
-                      );
-                    })}
-                  </div>
+        // ================= VISTA ESCRITORIO (PAGINADOR DE PUNTOS Y NAVEGACIÓN LIMPIA) =================
+        <div className="space-y-8">
+          <div className="grid grid-cols-3 gap-6 auto-rows-fr">
+            {projectChunks[activePage]?.map((p: any, idx: number) => {
+              const node = p.node;
+              const details = node.detallesDelProyecto || {};
+              return (
+                <div key={node.id || idx} className="animate-fade-in h-full flex flex-col">
+                  <PortfolioCard
+                    title={node.title}
+                    excerpt={details.descripcionDelProyecto || node.excerpt || ''}
+                    url={details.urlDelProyecto}
+                    repoUrl={details.enlaceAlRepositorioUrl}
+                    tech={details.tecnologias}
+                    role={details.rolPuesto}
+                    year={details.anodelproyecto}
+                    imageUrl={node.featuredImage}
+                    imageAlt={node.imageAlt}
+                    gallery={node.gallery}
+                    categories={node.categories}
+                    onOpenLightbox={handleOpenLightbox}
+                  />
                 </div>
-              ))}
-            </div>
+              );
+            })}
           </div>
 
-          {/* Flechas de Navegación del Slider (Desktop) */}
+          {/* Paginador de Puntos (Dots) con más aire respecto al grid */}
           {totalPages > 1 && (
-            <>
-              <button
-                onClick={handlePrev}
-                disabled={activePage === 0}
-                className="absolute left-[-24px] top-[40%] -translate-y-1/2 z-10 p-3 rounded-full bg-panel/80 backdrop-blur border border-panel-border text-muted hover:text-primary disabled:opacity-0 disabled:pointer-events-none hover:scale-110 active:scale-95 transition-all duration-300 shadow-xl opacity-0 group-hover/slider:opacity-100 cursor-pointer"
-                aria-label="Deslizar izquierda"
-              >
-                <ChevronLeft size={24} />
-              </button>
-              <button
-                onClick={handleNext}
-                disabled={activePage === totalPages - 1}
-                className="absolute right-[-24px] top-[40%] -translate-y-1/2 z-10 p-3 rounded-full bg-panel/80 backdrop-blur border border-panel-border text-muted hover:text-primary disabled:opacity-0 disabled:pointer-events-none hover:scale-110 active:scale-95 transition-all duration-300 shadow-xl opacity-0 group-hover/slider:opacity-100 cursor-pointer"
-                aria-label="Deslizar derecha"
-              >
-                <ChevronRight size={24} />
-              </button>
-            </>
-          )}
-
-          {/* Paginador de Puntos (Dots) */}
-          {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-2 pt-2">
+            <div className="flex justify-center items-center gap-2.5 pt-6">
               {Array.from({ length: totalPages }).map((_, idx) => (
                 <button
                   key={idx}
-                  onClick={() => setActivePage(idx)}
+                  onClick={() => handlePageSelect(idx)}
                   className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
                     activePage === idx
-                      ? 'w-8 bg-primary shadow-md shadow-primary/30'
+                      ? 'w-9 bg-primary shadow-md shadow-primary/30'
                       : 'w-2.5 bg-panel-border hover:bg-primary/50'
                   }`}
-                  aria-label={`Ir al slide ${idx + 1}`}
+                  aria-label={`Ir a la página ${idx + 1}`}
                 />
               ))}
             </div>
           )}
         </div>
       )}
+
+      {/* Componente Modal Lightbox Slideshow */}
+      <LightboxModal
+        isOpen={lightboxData.isOpen}
+        images={lightboxData.images}
+        title={lightboxData.title}
+        onClose={handleCloseLightbox}
+      />
     </section>
   );
 }
