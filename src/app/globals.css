@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0A0909; /* Negro profundo para el fondo principal */
+  --foreground: #F5F5F7; /* Blanco nítido de alto contraste para textos principales */
+  --panel: #171516;      /* Gris oscuro cálido para que las tarjetas resalten con fuerza */
+  --panel-border: #2D2728; /* Borde sutil pero visible para definir los límites de las tarjetas */
+  --primary: #E53B55;    /* Acento cereza/carmesí vibrante ajustado para cumplir contraste WCAG AA (4.58:1) */
+  --primary-hover: #F05169; /* Versión luminosa de acento para interactividad */
+  --primary-foreground: #FFFFFF;
+  --text-muted: #A09A9C; /* Gris intermedio para descripciones secundarias */
+  --brand-wine: #7b1527; /* Tu granate corporativo original para fondos rellenos */
+  --subfooter-bg: #050404; /* Fondo muy oscuro para el subfooter */
+}
+
+html.light {
+  --background: #F8F9FA;      /* Blanco roto/grisáceo suave y limpio */
+  --foreground: #1E1E24;      /* Gris muy oscuro para alto contraste */
+  --panel: #FFFFFF;           /* Blanco puro para las tarjetas */
+  --panel-border: #E2E8F0;    /* Borde gris claro muy limpio */
+  --primary: #7b1527;         /* Granate corporativo original del logo */
+  --primary-hover: #9e1c33;   /* Tono más claro del granate para interactividad (hover) */
+  --primary-foreground: #FFFFFF;
+  --text-muted: #5E6977;      /* Gris oscuro medio para textos secundarios legibles */
+  --brand-wine: #7b1527;
+  --subfooter-bg: #faf5fa;    /* Fondo rosa-grisáceo claro solicitado para el subfooter */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-panel: var(--panel);
+  --color-panel-border: var(--panel-border);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--text-muted);
+  --color-brand-wine: var(--brand-wine);
+  --color-subfooter-bg: var(--subfooter-bg);
+  --font-sans: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background); 
+}
+::-webkit-scrollbar-thumb {
+  background: var(--panel-border); 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary); 
+}
+
+/* Offset para los enlaces de ancla (evita que los títulos queden tapados por el header móvil) */
+section[id] {
+  scroll-margin-top: 96px; /* 64px de la cabecera móvil + 32px de margen estético */
+}
+
+@media (min-width: 768px) {
+  section[id] {
+    scroll-margin-top: 48px; /* 48px para escritorio (sin cabecera) */
+  }
+}
+
+/* Ocultar cursor nativo en dispositivos con hover y puntero fino para habilitar custom cursor */
+@media (hover: hover) and (pointer: fine) {
+  body.desktop-custom-cursor,
+  body.desktop-custom-cursor * {
+    cursor: none !important;
+  }
+}
+
+/* Estilos de listas premium para el contenido enriquecido (.prose) de WordPress */
+.prose ul {
+  list-style: none !important;
+  padding-left: 1.25rem !important;
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+  display: block !important;
+}
+
+.prose li {
+  position: relative !important;
+  padding-left: 0.25rem !important;
+  margin-bottom: 0.5rem !important;
+  line-height: 1.6 !important;
+}
+
+/* Bullet interactivo y brillante de color corporativo */
+.prose li::before {
+  content: "" !important;
+  position: absolute !important;
+  left: -1.1rem !important;
+  top: 0.55rem !important;
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background-color: var(--primary) !important;
+  box-shadow: 0 0 6px var(--primary) !important;
+  transition: transform 0.2s ease-out !important;
+}
+
+.prose li:hover::before {
+  transform: scale(1.35) !important;
+}
+
