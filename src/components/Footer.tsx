@@ -11,7 +11,7 @@ export default function Footer({ userName = "Francisco Fernández" }: FooterProp
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full mt-20 bg-panel/30 border-t border-panel-border/80 pt-12 pb-0 flex flex-col items-center justify-center space-y-6 text-center mx-[-1.5rem] md:mx-[-2rem] lg:mx-[-3rem] w-[calc(100%+3rem)] md:w-[calc(100%+4rem)] lg:w-[calc(100%+6rem)] px-0">
+    <footer className="w-[calc(100%+3rem)] md:w-[calc(100%+4rem)] lg:w-[calc(100%+6rem)] -ml-6 md:-ml-8 lg:-ml-12 mt-20 bg-panel/30 border-t border-panel-border/80 pt-12 pb-0 flex flex-col items-center justify-center space-y-6 text-center overflow-x-hidden">
       {/* Brand Logo & Name */}
       <div className="flex flex-col items-center space-y-3 px-6 md:px-8 lg:px-12">
         <div className="w-16 h-16 rounded-full overflow-hidden flex items-center justify-center hover:scale-105 active:scale-95 transition-transform duration-300 cursor-pointer">
@@ -26,9 +26,9 @@ export default function Footer({ userName = "Francisco Fernández" }: FooterProp
       </div>
 
       {/* Navigation Links */}
-      <div className="flex items-center gap-6 text-sm text-muted px-6 md:px-8 lg:px-12">
+      <div className="flex items-center gap-4 sm:gap-6 text-sm text-muted px-6 md:px-8 lg:px-12 flex-wrap justify-center">
         <Link href="/politica-privacidad" className="hover:text-primary transition-colors cursor-pointer">Política de privacidad</Link>
-        <span className="text-panel-border">|</span>
+        <span className="text-panel-border hidden sm:inline">|</span>
         <a href="#" className="hover:text-primary transition-colors">Política de cookies</a>
       </div>
 

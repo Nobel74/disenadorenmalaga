@@ -88,7 +88,7 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-background">
+    <div className="min-h-screen flex flex-col md:flex-row bg-background overflow-x-hidden">
       {/* Sidebar Fija (Desktop) */}
       <aside className="w-full md:w-64 bg-panel border-r border-panel-border hidden md:flex flex-col md:fixed md:inset-y-0 md:left-0 z-50">
         <div className="p-6 border-b border-panel-border">
