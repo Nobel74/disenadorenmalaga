@@ -52,16 +52,30 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
     }
   };
 
+  const handleScrollToHash = (targetId: string) => {
+    const element = document.getElementById(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      // Reemplazamos la URL en lugar de añadirla al historial para evitar acumulación de anclas (#contacto#formacion)
+      const cleanUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}#${targetId}`;
+      window.history.replaceState(null, '', cleanUrl);
+    }
+  };
+
+  const handleDesktopLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    if (isMainPage) {
+      e.preventDefault();
+      handleScrollToHash(targetId);
+    }
+  };
+
   const handleMobileLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     setIsMenuOpen(false);
     if (isMainPage) {
       e.preventDefault();
       // Esperamos a que finalice la transición del padding de <main> para hacer scroll exacto
       setTimeout(() => {
-        const element = document.getElementById(targetId);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
+        handleScrollToHash(targetId);
       }, 320);
     }
   };
@@ -118,31 +132,31 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
         </div>
         
         <nav className="flex-1 p-4 space-y-2">
-          <Link href={isMainPage ? '#proyectos' : '/#proyectos'} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
+          <Link href={isMainPage ? '#proyectos' : '/#proyectos'} onClick={(e) => handleDesktopLinkClick(e, 'proyectos')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
             <Briefcase size={20} className="group-hover:text-primary" />
             <span className="font-medium">Portfolio</span>
           </Link>
-          <Link href={isMainPage ? '#experiencia' : '/#experiencia'} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
+          <Link href={isMainPage ? '#experiencia' : '/#experiencia'} onClick={(e) => handleDesktopLinkClick(e, 'experiencia')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
             <Cpu size={20} className="group-hover:text-primary" />
             <span className="font-medium">Experiencia</span>
           </Link>
-          <Link href={isMainPage ? '#formacion' : '/#formacion'} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
+          <Link href={isMainPage ? '#formacion' : '/#formacion'} onClick={(e) => handleDesktopLinkClick(e, 'formacion')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
             <GraduationCap size={20} className="group-hover:text-primary" />
             <span className="font-medium">Formación</span>
           </Link>
-          <Link href={isMainPage ? '#habilidades' : '/#habilidades'} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
+          <Link href={isMainPage ? '#habilidades' : '/#habilidades'} onClick={(e) => handleDesktopLinkClick(e, 'habilidades')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
             <BookOpen size={20} className="group-hover:text-primary" />
             <span className="font-medium">Habilidades</span>
           </Link>
-          <Link href={isMainPage ? '#otras-habilidades' : '/#otras-habilidades'} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
+          <Link href={isMainPage ? '#otras-habilidades' : '/#otras-habilidades'} onClick={(e) => handleDesktopLinkClick(e, 'otras-habilidades')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
             <Sparkles size={20} className="group-hover:text-primary" />
             <span className="font-medium">Otras Habilidades</span>
           </Link>
-          <Link href={isMainPage ? '#idiomas' : '/#idiomas'} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
+          <Link href={isMainPage ? '#idiomas' : '/#idiomas'} onClick={(e) => handleDesktopLinkClick(e, 'idiomas')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
             <Globe size={20} className="group-hover:text-primary" />
             <span className="font-medium">Idiomas</span>
           </Link>
-          <Link href={isMainPage ? '#contacto' : '/#contacto'} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
+          <Link href={isMainPage ? '#contacto' : '/#contacto'} onClick={(e) => handleDesktopLinkClick(e, 'contacto')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
             <Mail size={20} className="group-hover:text-primary" />
             <span className="font-medium">Contacto</span>
           </Link>
@@ -164,6 +178,7 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
             </p>
             <Link 
               href={isMainPage ? '#contacto' : '/#contacto'} 
+              onClick={(e) => handleDesktopLinkClick(e, 'contacto')}
               className="inline-flex w-full items-center justify-center px-4 py-2 text-xs font-bold text-white bg-primary hover:bg-primary-hover rounded-lg shadow-md transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
             >
               ¡Hablemos!
