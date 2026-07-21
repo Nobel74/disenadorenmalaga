@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const securityHeaders = [
   {
     key: 'Content-Security-Policy',
-    value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://disenadorenmalaga.es https://secure.gravatar.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://disenadorenmalaga.es; media-src 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests;",
+    value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://disenadorenmalaga.es https://api.disenadorenmalaga.es https://secure.gravatar.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://disenadorenmalaga.es https://api.disenadorenmalaga.es; media-src 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests;",
   },
   {
     key: 'X-Frame-Options',

@@ -219,8 +219,8 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
           >
             <img 
               src={theme === 'light' 
-                ? "https://disenadorenmalaga.es/wp-content/uploads/2026/07/New-Logo-Web-FF.svg"
-                : "https://disenadorenmalaga.es/wp-content/uploads/2026/07/New-Logo-Web-FF-W.svg"
+                ? "/New-Logo-Web-FF.svg"
+                : "/New-Logo-Web-FF-W.svg"
               } 
               alt={userName} 
               className="h-full w-auto object-contain" 
