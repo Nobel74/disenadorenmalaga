@@ -53,34 +53,38 @@ export default async function Home() {
   const heroDescription = hero?.content || "Diseñador Web y Gráfico, programador Fullstack y especialista en SEO. Fusiono el diseño visual con código moderno y optimizado para dar vida a experiencias digitales excepcionales.";
   const heroPhoto = hero?.featuredImage?.node?.sourceUrl || null;
 
-  const expItems = experiencias.map((exp: any) => ({
-    id: exp.node.id || Math.random().toString(),
-    title: exp.node.experienciaLaboral?.puestoRolEnLaEmpresa || exp.node.title, // El puesto
-    subtitle: exp.node.title, // El título del post de WP es el nombre de la empresa
-    dateStart: formatDateString(exp.node.experienciaLaboral?.fechaDeInicioE),
-    dateEnd: formatDateString(exp.node.experienciaLaboral?.fechaDeFinE),
-    description: exp.node.experienciaLaboral?.descripcionE || exp.node.content || '',
-    url: exp.node.experienciaLaboral?.urlDeLaEmpresa || ''
-  })).sort((a: any, b: any) => {
-    // Intentar extraer el año (4 dígitos) de la fecha de inicio para ordenar (más reciente a más antiguo)
-    const getYear = (str: string) => {
-      const match = str?.match(/\d{4}/);
-      return match ? parseInt(match[0]) : 0;
-    };
-    return getYear(b.dateStart) - getYear(a.dateStart);
-  });
+  const expItems = (experiencias || [])
+    .filter((exp: any) => exp && exp.node)
+    .map((exp: any) => ({
+      id: exp.node.id || Math.random().toString(),
+      title: exp.node.experienciaLaboral?.puestoRolEnLaEmpresa || exp.node.title || '',
+      subtitle: exp.node.title || '',
+      dateStart: formatDateString(exp.node.experienciaLaboral?.fechaDeInicioE),
+      dateEnd: formatDateString(exp.node.experienciaLaboral?.fechaDeFinE),
+      description: exp.node.experienciaLaboral?.descripcionE || exp.node.content || '',
+      url: exp.node.experienciaLaboral?.urlDeLaEmpresa || ''
+    })).sort((a: any, b: any) => {
+      // Intentar extraer el año (4 dígitos) de la fecha de inicio para ordenar (más reciente a más antiguo)
+      const getYear = (str: string) => {
+        const match = str?.match(/\d{4}/);
+        return match ? parseInt(match[0]) : 0;
+      };
+      return getYear(b.dateStart) - getYear(a.dateStart);
+    });
 
-  const allEduItems = formacion.map((edu: any) => ({
-    id: edu.node.id || Math.random().toString(),
-    title: edu.node.title, // El título del post
-    subtitle: edu.node.fomacion?.nombreDelCentro || '',
-    dateStart: formatDateString(edu.node.fomacion?.fechaDeInicioF),
-    dateEnd: formatDateString(edu.node.fomacion?.fechaDefinF),
-    rawDateStart: edu.node.fomacion?.fechaDeInicioF,
-    rawDateEnd: edu.node.fomacion?.fechaDefinF,
-    description: edu.node.content || '', // Usamos el contenido nativo si no hay campo ACF de descripción
-    isReglada: edu.node.fomacion?.formacionReglada === true
-  }));
+  const allEduItems = (formacion || [])
+    .filter((edu: any) => edu && edu.node)
+    .map((edu: any) => ({
+      id: edu.node.id || Math.random().toString(),
+      title: edu.node.title || '',
+      subtitle: edu.node.fomacion?.nombreDelCentro || '',
+      dateStart: formatDateString(edu.node.fomacion?.fechaDeInicioF),
+      dateEnd: formatDateString(edu.node.fomacion?.fechaDefinF),
+      rawDateStart: edu.node.fomacion?.fechaDeInicioF,
+      rawDateEnd: edu.node.fomacion?.fechaDefinF,
+      description: edu.node.content || '', // Usamos el contenido nativo si no hay campo ACF de descripción
+      isReglada: edu.node.fomacion?.formacionReglada === true
+    }));
 
   const sortByDate = (a: any, b: any) => {
     const getTime = (dateStr?: string) => {
@@ -111,20 +115,24 @@ export default async function Home() {
   const groupedSkills: Record<string, any[]> = {};
   const uncategorizedSkills: any[] = [];
 
-  habilidades.forEach((h: any) => {
-    const categories = h.node.categoriasHabilidades?.edges || [];
-    if (categories.length > 0) {
-      categories.forEach((catEdge: any) => {
-        const catName = catEdge.node.name;
-        if (!groupedSkills[catName]) {
-          groupedSkills[catName] = [];
-        }
-        groupedSkills[catName].push(h);
-      });
-    } else {
-      uncategorizedSkills.push(h);
-    }
-  });
+  (habilidades || [])
+    .filter((h: any) => h && h.node)
+    .forEach((h: any) => {
+      const categories = h.node.categoriasHabilidades?.edges || [];
+      if (categories.length > 0) {
+        categories.forEach((catEdge: any) => {
+          if (catEdge && catEdge.node && catEdge.node.name) {
+            const catName = catEdge.node.name;
+            if (!groupedSkills[catName]) {
+              groupedSkills[catName] = [];
+            }
+            groupedSkills[catName].push(h);
+          }
+        });
+      } else {
+        uncategorizedSkills.push(h);
+      }
+    });
 
   return (
     <DashboardLayout userName={heroTitle}>

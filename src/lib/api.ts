@@ -2,29 +2,40 @@ export async function fetchAPI(query: string, { variables }: { variables?: any }
   const WP_API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
 
   if (!WP_API_URL) {
-    throw new Error('La variable de entorno NEXT_PUBLIC_WORDPRESS_API_URL no está definida.');
+    console.error('La variable de entorno NEXT_PUBLIC_WORDPRESS_API_URL no está definida.');
+    return null;
   }
 
-  const res = await fetch(WP_API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      query,
-      variables,
-    }),
-    cache: 'no-store', // Para desarrollo
-  });
+  try {
+    const res = await fetch(WP_API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query,
+        variables,
+      }),
+      cache: 'no-store', // Para desarrollo
+    });
 
-  const json = await res.json();
-  
-  if (json.errors) {
-    console.error(JSON.stringify(json.errors, null, 2));
-    throw new Error('Error de GraphQL: ' + JSON.stringify(json.errors[0].message));
+    if (!res.ok) {
+      console.error(`HTTP error! status: ${res.status}`);
+      return null;
+    }
+
+    const json = await res.json();
+    
+    if (json.errors) {
+      console.error(JSON.stringify(json.errors, null, 2));
+      return null;
+    }
+    
+    return json.data;
+  } catch (error) {
+    console.error('Error en fetchAPI:', error);
+    return null;
   }
-  
-  return json.data;
 }
 
 export async function getExperiencias() {

@@ -15,6 +15,7 @@ export default function LanguagesSection({ idiomas }: LanguagesSectionProps) {
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {[...idiomas]
+          .filter((idioma: any) => idioma && idioma.node)
           .sort((a: any, b: any) => {
             const levelA = String(a.node.idiomas?.nivelIdioma || '').toLowerCase();
             const levelB = String(b.node.idiomas?.nivelIdioma || '').toLowerCase();
