@@ -11,6 +11,15 @@ const barlow = Barlow({
 export const metadata: Metadata = {
   title: "Francisco Fernández - Portfolio & CV",
   description: "Portfolio online y Currículum Vitae de Francisco Fernández, Diseñador Web y Programador.",
+  icons: {
+    icon: [
+      { url: "https://disenadorenmalaga.es/wp-content/uploads/2026/07/cropped-favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "https://disenadorenmalaga.es/wp-content/uploads/2026/07/cropped-favicon-192x192.png", sizes: "192x192", type: "image/png" }
+    ],
+    apple: [
+      { url: "https://disenadorenmalaga.es/wp-content/uploads/2026/07/cropped-favicon-180x180.png", sizes: "180x180", type: "image/png" }
+    ]
+  }
 };
 
 import CustomCursor from "@/components/CustomCursor";
