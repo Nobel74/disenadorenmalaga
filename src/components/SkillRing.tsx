@@ -74,10 +74,10 @@ export default function SkillRing({ title, percentage, logoUrl, customColor }: S
   return (
     <div 
       ref={containerRef}
-      className="flex flex-col items-center justify-center p-4 bg-panel rounded-xl border border-panel-border shadow-lg hover:border-primary/50 transition-all hover:-translate-y-1 duration-300 group"
+      className="flex flex-col items-center justify-between p-3 sm:p-4 bg-panel rounded-xl border border-panel-border shadow-lg hover:border-primary/50 transition-all hover:-translate-y-1 duration-300 group h-full w-full overflow-hidden"
       style={{ '--hover-color': ringColor } as React.CSSProperties}
     >
-      <div className="relative w-32 h-32 flex items-center justify-center mb-4">
+      <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 flex items-center justify-center mb-2 sm:mb-3 shrink-0">
         {/* SVG Circle */}
         <svg className="absolute inset-0 w-full h-full transform -rotate-90 drop-shadow-md z-10 pointer-events-none" viewBox="0 0 100 100">
           {/* Background Ring */}
@@ -108,32 +108,34 @@ export default function SkillRing({ title, percentage, logoUrl, customColor }: S
         </svg>
 
         {/* Logo or Initial inside the ring */}
-        <div className="absolute inset-0 flex items-center justify-center rounded-full z-0">
+        <div className="absolute inset-0 flex items-center justify-center rounded-full z-0 p-3 sm:p-4">
           {logoUrl ? (
             <img 
               src={logoUrl} 
               alt={title} 
-              className="w-[72px] h-[72px] object-contain group-hover:scale-110 group-hover:rotate-6 transition-all duration-300"
+              className="w-full h-full object-contain group-hover:scale-110 group-hover:rotate-6 transition-all duration-300"
             />
           ) : (
-            <span className="text-2xl font-bold text-foreground">{safeTitle.charAt(0)}</span>
+            <span className="text-xl sm:text-2xl font-bold text-foreground">{safeTitle.charAt(0)}</span>
           )}
         </div>
       </div>
       
       {/* Title & Percentage Below */}
-      <h3 
-        className="text-lg font-bold text-foreground text-center transition-colors duration-300 leading-[1.15rem]"
-        style={{ color: isVisible ? 'var(--foreground)' : ringColor }}
-      >
-        {title}
-      </h3>
-      <p 
-        className="font-bold mt-1 text-xl tabular-nums transition-colors duration-300"
-        style={{ color: ringColor }}
-      >
-        {currentPercent}%
-      </p>
+      <div className="flex flex-col items-center justify-center w-full min-w-0">
+        <h3 
+          className="text-xs sm:text-sm md:text-base font-bold text-foreground text-center transition-colors duration-300 leading-tight w-full break-words px-0.5 max-w-full"
+          style={{ color: isVisible ? 'var(--foreground)' : ringColor }}
+        >
+          {title}
+        </h3>
+        <p 
+          className="font-bold mt-1 text-sm sm:text-base md:text-lg tabular-nums transition-colors duration-300"
+          style={{ color: ringColor }}
+        >
+          {currentPercent}%
+        </p>
+      </div>
     </div>
   );
 }
