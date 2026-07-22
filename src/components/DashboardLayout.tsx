@@ -33,6 +33,13 @@ interface DashboardLayoutProps {
   locale?: string;
 }
 
+/**
+ * Componente de diseño principal de la aplicación (Dashboard/Layout).
+ * Gestiona el menú de navegación lateral (escritorio), cabecera pegajosa (móvil),
+ * selección de tema de color (claro/oscuro), traducción de textos estáticos y conmutadores de idioma.
+ *
+ * @component
+ */
 export default function DashboardLayout({ children, userName = "Paco Fernández", locale = "es" }: DashboardLayoutProps) {
   const [headerState, setHeaderState] = useState<'top' | 'hidden' | 'sticky'>('top');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -95,6 +102,10 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
     }
   }, []);
 
+  /**
+   * Alterna el tema de color entre oscuro y claro, guardándolo en localStorage
+   * y aplicando la clase correspondiente en el elemento HTML raíz.
+   */
   const toggleTheme = () => {
     const nextTheme = theme === 'dark' ? 'light' : 'dark';
     setTheme(nextTheme);
@@ -106,6 +117,14 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
     }
   };
 
+  /**
+   * Genera el enlace localizado para cambiar de idioma.
+   * Traduce de forma especial los slugs de la página legal (politica-privacidad <-> privacy-policy)
+   * para evitar errores de página no encontrada (404).
+   *
+   * @param {string} targetLocale - El idioma de destino ('es' o 'en').
+   * @returns {string} La URL reescrita correspondiente al idioma seleccionado.
+   */
   const getSwitchLocaleUrl = (targetLocale: string) => {
     if (!pathname) return `/${targetLocale}`;
     
@@ -125,6 +144,12 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
     return `/${targetLocale}${pathname}`;
   };
 
+  /**
+   * Realiza un scroll suave hacia el inicio de la página en la vista principal,
+   * o redirige a la página principal del idioma activo si el usuario está en una subpágina.
+   *
+   * @param {React.MouseEvent} e - Evento de clic del ratón.
+   */
   const handleScrollToTop = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsMenuOpen(false);
@@ -138,6 +163,12 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
     }
   };
 
+  /**
+   * Realiza un scroll suave hacia la sección identificada por su ID,
+   * y reemplaza el historial del navegador para reflejar el ancla actual en la URL.
+   *
+   * @param {string} targetId - ID del elemento destino del scroll.
+   */
   const handleScrollToHash = (targetId: string) => {
     const element = document.getElementById(targetId);
     if (element) {
@@ -147,6 +178,13 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
     }
   };
 
+  /**
+   * Manejador de clics para los enlaces de escritorio.
+   * Si está en la página principal, cancela la navegación estándar y realiza scroll suave.
+   *
+   * @param {React.MouseEvent<HTMLAnchorElement>} e - Evento de clic.
+   * @param {string} targetId - ID de la sección de destino.
+   */
   const handleDesktopLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     if (isMainPage) {
       e.preventDefault();
@@ -154,6 +192,13 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
     }
   };
 
+  /**
+   * Manejador de clics para los enlaces del menú móvil.
+   * Cierra el menú desplegable y, tras completarse la animación de cierre, realiza el scroll suave.
+   *
+   * @param {React.MouseEvent<HTMLAnchorElement>} e - Evento de clic.
+   * @param {string} targetId - ID de la sección de destino.
+   */
   const handleMobileLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     setIsMenuOpen(false);
     if (isMainPage) {
@@ -164,6 +209,7 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
     }
   };
 
+  // Efecto para gestionar el estado de visualización de la cabecera móvil pegajosa según la posición del scroll
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;

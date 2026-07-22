@@ -1,3 +1,17 @@
+/**
+ * @file api.ts
+ * @description Módulo de consulta de la API para conectar Next.js con WordPress Headless.
+ * Contiene funciones para consultar datos via GraphQL (WPGraphQL) y la API REST nativa.
+ */
+
+/**
+ * Realiza una consulta HTTP POST al endpoint de WPGraphQL.
+ *
+ * @param {string} query - Consulta GraphQL a ejecutar.
+ * @param {object} [options] - Parámetros de configuración adicionales.
+ * @param {any} [options.variables] - Variables dinámicas que se inyectan en la consulta GraphQL.
+ * @returns {Promise<any | null>} Los datos devueltos en la propiedad `data` del JSON, o `null` si ocurre un error.
+ */
 export async function fetchAPI(query: string, { variables }: { variables?: any } = {}) {
   const WP_API_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
 
@@ -16,7 +30,7 @@ export async function fetchAPI(query: string, { variables }: { variables?: any }
         query,
         variables,
       }),
-      cache: 'no-store', // Para desarrollo
+      cache: 'no-store', // Deshabilita el almacenamiento en caché para desarrollo y actualizaciones en tiempo real
     });
 
     if (!res.ok) {
@@ -38,6 +52,12 @@ export async function fetchAPI(query: string, { variables }: { variables?: any }
   }
 }
 
+/**
+ * Obtiene el listado de experiencias laborales desde WordPress, filtrado por el locale activo.
+ *
+ * @param {string} [locale='es'] - Código de idioma ('es' o 'en') para filtrar el contenido traducido mediante Polylang.
+ * @returns {Promise<any[]>} Un array con los nodos de experiencias laborales ordenadas. Retorna un array vacío si falla.
+ */
 export async function getExperiencias(locale: string = 'es') {
   const data = await fetchAPI(`
     query ObtenerExperiencias($language: LanguageCodeFilterEnum!) {
@@ -65,6 +85,12 @@ export async function getExperiencias(locale: string = 'es') {
   return data?.experiencias?.edges || [];
 }
 
+/**
+ * Obtiene el listado de formaciones académicas (reglada y no reglada) filtrado por idioma.
+ *
+ * @param {string} [locale='es'] - Código de idioma ('es' o 'en') para filtrar el contenido con Polylang.
+ * @returns {Promise<any[]>} Un array con los nodos de formación académica.
+ */
 export async function getFormacion(locale: string = 'es') {
   const data = await fetchAPI(`
     query ObtenerFormacion($language: LanguageCodeFilterEnum!) {
@@ -91,8 +117,15 @@ export async function getFormacion(locale: string = 'es') {
   return data?.formaciones?.edges || [];
 }
 
+/**
+ * Obtiene los proyectos del portfolio desde la API REST nativa de WordPress.
+ * Mapea las imágenes de la galería ACF haciendo fetches adicionales si se devuelven IDs numéricos.
+ * Ordena los resultados descendentemente según el año del proyecto.
+ *
+ * @param {string} [locale='es'] - Código del locale ('es' o 'en') inyectado en el query param `&lang=` de Polylang REST.
+ * @returns {Promise<any[]>} Array de proyectos mapeados con categorías, galería y campos personalizados ACF.
+ */
 export async function getProyectos(locale: string = 'es') {
-  // Petición a la REST API nativa de WordPress
   const WP_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL?.replace('/graphql', '');
   
   if (!WP_URL) return [];
@@ -101,13 +134,11 @@ export async function getProyectos(locale: string = 'es') {
     const res = await fetch(`${WP_URL}/wp-json/wp/v2/portfolio?per_page=30&_embed&lang=${locale}`, { cache: 'no-store' });
     const data = await res.json();
 
-    // Mapeamos los datos
     const projects = await Promise.all(data.map(async (item: any) => {
       const featuredMedia = item._embedded?.['wp:featuredmedia']?.[0];
       const imageUrl = featuredMedia?.source_url || '';
       const imageAlt = featuredMedia?.alt_text || item.title.rendered || '';
       
-      // Categorías asociadas al portfolio
       const categories = item._embedded?.['wp:term']?.flat() || [];
       const portfolioCategories = categories.map((term: any) => ({
         id: term.id,
@@ -116,18 +147,15 @@ export async function getProyectos(locale: string = 'es') {
         taxonomy: term.taxonomy
       }));
 
-      // Extraer imágenes del campo 'galeria' en ACF
       const rawGallery = item.acf?.galeria || item.acf?.galeria_de_imagenes || item.acf?.gallery;
       let galleryImages: Array<{ url: string; alt: string }> = [];
 
       if (Array.isArray(rawGallery) && rawGallery.length > 0) {
         galleryImages = await Promise.all(
           rawGallery.map(async (img: any) => {
-            // Si viene la URL en texto
             if (typeof img === 'string') {
               return { url: img, alt: item.title.rendered };
             }
-            // Si ACF devuelve un ID numérico, pedimos sus datos a la API de WordPress
             if (typeof img === 'number') {
               try {
                 const mediaRes = await fetch(`${WP_URL}/wp-json/wp/v2/media/${img}`, { cache: 'no-store' });
@@ -140,7 +168,6 @@ export async function getProyectos(locale: string = 'es') {
                 return { url: '', alt: '' };
               }
             }
-            // Si viene un objeto de imagen completo de ACF
             return {
               url: img.url || img.source_url || img.sizes?.large || img.sizes?.full || '',
               alt: img.alt || img.alt_text || img.caption || item.title.rendered
@@ -172,7 +199,6 @@ export async function getProyectos(locale: string = 'es') {
       };
     }));
 
-    // Ordenar de más nuevos a más antiguos (por fecha de publicación o año ACF)
     return projects.sort((a: any, b: any) => {
       const yearA = parseInt(a.node.detallesDelProyecto?.anodelproyecto) || 0;
       const yearB = parseInt(b.node.detallesDelProyecto?.anodelproyecto) || 0;
@@ -189,6 +215,13 @@ export async function getProyectos(locale: string = 'es') {
   }
 }
 
+/**
+ * Obtiene el listado de habilidades tecnológicas sin filtros de idioma.
+ * No requiere filtro porque los nombres de las tecnologías y logotipos son idénticos en ambos idiomas.
+ *
+ * @param {string} [locale='es'] - Código de idioma (no utilizado en la consulta final, conservado por consistencia de firmas).
+ * @returns {Promise<any[]>} Nodos de habilidades con sus logotipos, dominancia y taxonomías de categorías asociadas.
+ */
 export async function getHabilidades(locale: string = 'es') {
   const data = await fetchAPI(`
     query ObtenerHabilidades {
@@ -220,6 +253,12 @@ export async function getHabilidades(locale: string = 'es') {
   return data?.habilidades?.edges || [];
 }
 
+/**
+ * Obtiene el listado de idiomas hablados y niveles de competencia correspondientes.
+ *
+ * @param {string} [locale='es'] - Código de idioma ('es' o 'en') para filtrar el contenido traducido mediante Polylang.
+ * @returns {Promise<any[]>} Nodos de idiomas.
+ */
 export async function getIdiomas(locale: string = 'es') {
   const data = await fetchAPI(`
     query ObtenerIdiomas($language: LanguageCodeFilterEnum!) {
@@ -243,6 +282,14 @@ export async function getIdiomas(locale: string = 'es') {
   return data?.idiomas?.edges || [];
 }
 
+/**
+ * Obtiene la información del encabezado (Hero) desde WordPress.
+ * Si la consulta para el idioma seleccionado no devuelve resultados (por ejemplo, si el post del Hero no está traducido en el backend),
+ * se ejecuta automáticamente una consulta fallback que extrae el primer Hero disponible sin filtros de idioma.
+ *
+ * @param {string} [locale='es'] - Código del idioma seleccionado.
+ * @returns {Promise<any | null>} El nodo con el contenido del Hero (título, descripción, imagen destacada), o `null` si falla.
+ */
 export async function getHero(locale: string = 'es') {
   try {
     const data = await fetchAPI(`
@@ -295,6 +342,12 @@ export async function getHero(locale: string = 'es') {
   }
 }
 
+/**
+ * Obtiene el listado de habilidades blandas (Soft Skills) y sus niveles de desarrollo.
+ *
+ * @param {string} [locale='es'] - Código de idioma ('es' o 'en') para filtrar el contenido con Polylang.
+ * @returns {Promise<any[]>} Nodos de habilidades blandas.
+ */
 export async function getSoftSkills(locale: string = 'es') {
   try {
     const data = await fetchAPI(`
@@ -322,6 +375,12 @@ export async function getSoftSkills(locale: string = 'es') {
   }
 }
 
+/**
+ * Obtiene los datos de una página estática de WordPress utilizando su slug URI como identificador único.
+ *
+ * @param {string} slug - URI de la página (ej: '/politica-privacidad/' o '/en/privacy-policy/').
+ * @returns {Promise<any | null>} El nodo de la página con título y contenido HTML, o `null` si ocurre un error.
+ */
 export async function getPageBySlug(slug: string) {
   try {
     const data = await fetchAPI(`
