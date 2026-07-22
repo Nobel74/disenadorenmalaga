@@ -194,6 +194,7 @@ export default function ContactSection({ locale = 'es' }: { locale?: string }) {
                     onChange={handleChange}
                     required
                     placeholder={t.phNombre}
+                    autoComplete="name"
                     className="w-full px-4 py-2.5 rounded-lg bg-background border border-panel-border text-foreground placeholder:text-muted/70 hover:border-primary/50 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300"
                   />
                 </div>
@@ -207,6 +208,7 @@ export default function ContactSection({ locale = 'es' }: { locale?: string }) {
                     onChange={handleChange}
                     required
                     placeholder={t.phEmail}
+                    autoComplete="email"
                     className="w-full px-4 py-2.5 rounded-lg bg-background border border-panel-border text-foreground placeholder:text-muted/70 hover:border-primary/50 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300"
                   />
                 </div>
