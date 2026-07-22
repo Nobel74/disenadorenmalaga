@@ -5,9 +5,12 @@ interface HeroSectionProps {
   subtitle: string;
   description: string;
   photoUrl: string | null;
+  locale?: string;
 }
 
-export default function HeroSection({ userName, subtitle, description, photoUrl }: HeroSectionProps) {
+export default function HeroSection({ userName, subtitle, description, photoUrl, locale = 'es' }: HeroSectionProps) {
+  const greeting = locale === 'en' ? "Hi! I'm " : "¡Hola! Soy ";
+
   return (
     <div className="mx-[-1rem] md:mx-[-12px] mt-[-1rem] md:mt-[-2rem] mb-16">
       <section className="relative overflow-hidden bg-panel/10 backdrop-blur-sm px-8 pt-10 pb-20 md:px-[12px] md:pt-16 md:pb-32 xl:pt-32 flex flex-col justify-center">
@@ -38,7 +41,7 @@ export default function HeroSection({ userName, subtitle, description, photoUrl 
               {subtitle}
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground tracking-tight leading-tight md:leading-none">
-              ¡Hola! Soy <span className="text-primary bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">{userName}</span> <span className="wave-emoji">👋</span>
+              {greeting}<span className="text-primary bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">{userName}</span> <span className="wave-emoji">👋</span>
             </h1>
             <div 
               className="text-muted text-lg md:text-xl leading-relaxed md:max-w-none prose prose-invert mx-auto xl:mx-0 space-y-[25px] [&_p]:mb-[25px] [&_p:last-child]:mb-0"

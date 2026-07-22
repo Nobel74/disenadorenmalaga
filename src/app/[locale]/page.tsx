@@ -138,6 +138,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         subtitle={heroSubtitle}
         description={heroDescription}
         photoUrl={heroPhoto}
+        locale={locale}
       />
 
       <div className="max-w-6xl mx-auto space-y-16 pb-12">

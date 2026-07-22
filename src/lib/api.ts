@@ -191,8 +191,8 @@ export async function getProyectos(locale: string = 'es') {
 
 export async function getHabilidades(locale: string = 'es') {
   const data = await fetchAPI(`
-    query ObtenerHabilidades($language: LanguageCodeFilterEnum!) {
-      habilidades(first: 100, where: { language: $language }) {
+    query ObtenerHabilidades {
+      habilidades(first: 100) {
         edges {
           node {
             title
@@ -216,11 +216,7 @@ export async function getHabilidades(locale: string = 'es') {
         }
       }
     }
-  `, {
-    variables: {
-      language: locale.toUpperCase()
-    }
-  });
+  `);
   return data?.habilidades?.edges || [];
 }
 
