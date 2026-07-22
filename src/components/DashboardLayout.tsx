@@ -108,6 +108,15 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
 
   const getSwitchLocaleUrl = (targetLocale: string) => {
     if (!pathname) return `/${targetLocale}`;
+    
+    // Si estamos en la página legal y cambiamos de idioma, traducimos el slug
+    if (pathname.endsWith('/politica-privacidad') && targetLocale === 'en') {
+      return '/en/privacy-policy';
+    }
+    if (pathname.endsWith('/privacy-policy') && targetLocale === 'es') {
+      return '/es/politica-privacidad';
+    }
+    
     const segments = pathname.split('/');
     if (segments[1] === 'es' || segments[1] === 'en') {
       segments[1] = targetLocale;
