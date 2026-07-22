@@ -187,7 +187,7 @@ export default function PortfolioSection({ proyectos }: PortfolioSectionProps) {
       ) : (
         // ================= VISTA ESCRITORIO (PAGINADOR DE PUNTOS Y NAVEGACIÓN LIMPIA) =================
         <div className="space-y-8">
-          <div className="grid grid-cols-2 xl:grid-cols-3 gap-6 auto-rows-fr">
+          <div className="grid grid-cols-2 xl:grid-cols-3 gap-6">
             {projectChunks[activePage]?.map((p: any, idx: number) => {
               const node = p.node;
               const details = node.detallesDelProyecto || {};
