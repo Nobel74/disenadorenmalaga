@@ -5,10 +5,28 @@ import Link from 'next/link';
 
 interface FooterProps {
   userName?: string;
+  locale?: string;
 }
 
-export default function Footer({ userName = "Francisco Fernández" }: FooterProps) {
+export default function Footer({ userName = "Francisco Fernández", locale = "es" }: FooterProps) {
   const currentYear = new Date().getFullYear();
+
+  const translations = {
+    es: {
+      privacyPolicy: "Política de privacidad",
+      cookiesPolicy: "Política de cookies",
+      rightsReserved: "Todos los derechos reservados.",
+      role: "Fullstack Developer",
+    },
+    en: {
+      privacyPolicy: "Privacy Policy",
+      cookiesPolicy: "Cookies Policy",
+      rightsReserved: "All rights reserved.",
+      role: "Fullstack Developer",
+    }
+  };
+
+  const t = locale === 'en' ? translations.en : translations.es;
 
   return (
     <footer className="w-[calc(100%+3rem)] md:w-[calc(100%+4rem)] lg:w-[calc(100%+6rem)] -ml-6 md:-ml-8 lg:-ml-12 mt-20 bg-panel/30 border-t border-panel-border/80 pt-12 pb-0 flex flex-col items-center justify-center space-y-6 text-center overflow-x-hidden">
@@ -17,24 +35,24 @@ export default function Footer({ userName = "Francisco Fernández" }: FooterProp
         <div className="w-16 h-16 rounded-full overflow-hidden flex items-center justify-center hover:scale-105 active:scale-95 transition-transform duration-300 cursor-pointer">
           <img 
             src="/Imagotipo.svg" 
-            alt="Logo Francisco Fernández" 
+            alt={`Logo ${userName}`} 
             className="w-full h-full object-contain" 
           />
         </div>
         <h2 className="text-xl font-bold text-foreground tracking-wide">{userName}</h2>
-        <p className="text-primary text-xs font-semibold uppercase tracking-wider">Fullstack Developer</p>
+        <p className="text-primary text-xs font-semibold uppercase tracking-wider">{t.role}</p>
       </div>
 
       {/* Navigation Links */}
       <div className="flex items-center gap-4 sm:gap-6 text-sm text-muted px-6 md:px-8 lg:px-12 flex-wrap justify-center">
-        <Link href="/politica-privacidad" className="hover:text-primary transition-colors cursor-pointer">Política de privacidad</Link>
+        <Link href={`/${locale}/politica-privacidad`} className="hover:text-primary transition-colors cursor-pointer">{t.privacyPolicy}</Link>
         <span className="text-panel-border hidden sm:inline">|</span>
-        <a href="#" className="hover:text-primary transition-colors">Política de cookies</a>
+        <a href="#" className="hover:text-primary transition-colors">{t.cookiesPolicy}</a>
       </div>
 
       {/* Copyright Subfooter con fondo ligeramente oscuro/grisáceo */}
       <div className="w-full py-5 bg-subfooter-bg border-t border-panel-border/20 text-xs text-foreground/90 mt-8 px-6 md:px-8 lg:px-12">
-        <p>© {currentYear} <a href="https://disenadorenmalaga.es" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary-hover font-semibold transition-colors">disenadorenmalaga.es</a>. Todos los derechos reservados.</p>
+        <p>© {currentYear} <a href="https://disenadorenmalaga.es" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary-hover font-semibold transition-colors">disenadorenmalaga.es</a>. {t.rightsReserved}</p>
       </div>
     </footer>
   );

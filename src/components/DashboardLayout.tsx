@@ -7,12 +7,59 @@ import Link from 'next/link';
 import ScrollToTop from './ScrollToTop';
 import Footer from './Footer';
 
-export default function DashboardLayout({ children, userName = "Paco Fernández" }: { children: React.ReactNode, userName?: string }) {
+interface DashboardLayoutProps {
+  children: React.ReactNode;
+  userName?: string;
+  locale?: string;
+}
+
+export default function DashboardLayout({ children, userName = "Paco Fernández", locale = "es" }: DashboardLayoutProps) {
   const [headerState, setHeaderState] = useState<'top' | 'hidden' | 'sticky'>('top');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const pathname = usePathname();
-  const isMainPage = pathname === '/';
+  const isMainPage = pathname === `/${locale}` || pathname === '/es' || pathname === '/en';
+
+  const translations = {
+    es: {
+      portfolio: 'Portfolio',
+      experiencia: 'Experiencia',
+      formacion: 'Formación',
+      habilidades: 'Habilidades',
+      otrasHabilidades: 'Otras Habilidades',
+      idiomas: 'Idiomas',
+      contacto: 'Contacto',
+      modoClaro: 'Modo Claro',
+      modoOscuro: 'Modo Oscuro',
+      disponible: 'Disponible para trabajar',
+      ctaPregunta: '¿Buscas impulsar tu proyecto o reforzar tu equipo?',
+      ctaBoton: '¡Hablemos!',
+      volverArriba: 'Volver arriba',
+      logoAlt: 'Logo Francisco Fernández',
+      linkedinAlt: 'Perfil de LinkedIn',
+      githubAlt: 'Perfil de GitHub',
+    },
+    en: {
+      portfolio: 'Portfolio',
+      experiencia: 'Experience',
+      formacion: 'Education',
+      habilidades: 'Skills',
+      otrasHabilidades: 'Other Skills',
+      idiomas: 'Languages',
+      contacto: 'Contact',
+      modoClaro: 'Light Mode',
+      modoOscuro: 'Dark Mode',
+      disponible: 'Available for work',
+      ctaPregunta: 'Looking to boost your project or strengthen your team?',
+      ctaBoton: 'Let\'s talk!',
+      volverArriba: 'Back to top',
+      logoAlt: 'Logo Francisco Fernandez',
+      linkedinAlt: 'LinkedIn Profile',
+      githubAlt: 'GitHub Profile',
+    }
+  };
+
+  const t = locale === 'en' ? translations.en : translations.es;
 
   // Inicializar tema al montar leyendo localStorage o preferencias del sistema
   useEffect(() => {
@@ -39,6 +86,16 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
     }
   };
 
+  const getSwitchLocaleUrl = (targetLocale: string) => {
+    if (!pathname) return `/${targetLocale}`;
+    const segments = pathname.split('/');
+    if (segments[1] === 'es' || segments[1] === 'en') {
+      segments[1] = targetLocale;
+      return segments.join('/');
+    }
+    return `/${targetLocale}${pathname}`;
+  };
+
   const handleScrollToTop = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsMenuOpen(false);
@@ -48,7 +105,7 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
         behavior: 'smooth',
       });
     } else {
-      window.location.href = '/';
+      window.location.href = `/${locale}`;
     }
   };
 
@@ -56,7 +113,6 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
     const element = document.getElementById(targetId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
-      // Reemplazamos la URL en lugar de añadirla al historial para evitar acumulación de anclas (#contacto#formacion)
       const cleanUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}#${targetId}`;
       window.history.replaceState(null, '', cleanUrl);
     }
@@ -73,7 +129,6 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
     setIsMenuOpen(false);
     if (isMainPage) {
       e.preventDefault();
-      // Esperamos a que finalice la transición del padding de <main> para hacer scroll exacto
       setTimeout(() => {
         handleScrollToHash(targetId);
       }, 320);
@@ -101,70 +156,81 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const mainPath = `/${locale}`;
+
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-background overflow-x-hidden">
       {/* Sidebar Fija (Desktop) */}
       <aside className="w-full md:w-64 bg-panel border-r border-panel-border hidden md:flex flex-col md:fixed md:inset-y-0 md:left-0 z-50 md:overflow-y-auto sidebar-scrollbar">
-        <div className="p-6 border-b border-panel-border shrink-0">
+        <div className="p-6 border-b border-panel-border shrink-0 text-center">
           {/* Logo Imagotipo.svg - Doble F opuesta - Clic vuelve arriba */}
           <div 
             onClick={handleScrollToTop}
             className="w-20 h-20 mb-4 mx-auto flex items-center justify-center cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300"
-            title="Volver arriba"
+            title={t.volverArriba}
           >
             <img 
               src="/Imagotipo.svg" 
-              alt="Logo Francisco Fernández" 
+              alt={t.logoAlt} 
               className="w-full h-full object-contain" 
             />
           </div>
-          <h1 className="text-xl font-bold text-foreground text-center">{userName}</h1>
-          <p className="text-primary text-sm text-center mt-1">Fullstack Product Developer</p>
-          <div className="flex justify-center mt-3">
+          <h1 className="text-xl font-bold text-foreground">{userName}</h1>
+          <p className="text-primary text-sm mt-1">Fullstack Product Developer</p>
+          
+          <div className="flex justify-center gap-2 mt-3 flex-wrap">
             <button 
               onClick={toggleTheme}
               className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-panel-border/30 hover:bg-primary/10 hover:text-primary transition-all duration-300 text-xs font-semibold cursor-pointer text-muted"
             >
               {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
-              <span>{theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro'}</span>
+              <span>{theme === 'dark' ? t.modoClaro : t.modoOscuro}</span>
             </button>
+            
+            <Link
+              href={getSwitchLocaleUrl(locale === 'es' ? 'en' : 'es')}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-panel-border/30 hover:bg-primary/10 hover:text-primary transition-all duration-300 text-xs font-semibold cursor-pointer text-muted font-bold"
+              title={locale === 'es' ? "Switch to English" : "Cambiar a Español"}
+            >
+              <span>🌐</span>
+              <span>{locale === 'es' ? 'EN' : 'ES'}</span>
+            </Link>
           </div>
         </div>
         
         <nav className="p-4 space-y-2 shrink-0">
-          <Link href={isMainPage ? '#proyectos' : '/#proyectos'} onClick={(e) => handleDesktopLinkClick(e, 'proyectos')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
+          <Link href={isMainPage ? '#proyectos' : `${mainPath}#proyectos`} onClick={(e) => handleDesktopLinkClick(e, 'proyectos')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
             <Briefcase size={20} className="group-hover:text-primary" />
-            <span className="font-medium">Portfolio</span>
+            <span className="font-medium">{t.portfolio}</span>
           </Link>
-          <Link href={isMainPage ? '#experiencia' : '/#experiencia'} onClick={(e) => handleDesktopLinkClick(e, 'experiencia')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
+          <Link href={isMainPage ? '#experiencia' : `${mainPath}#experiencia`} onClick={(e) => handleDesktopLinkClick(e, 'experiencia')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
             <Cpu size={20} className="group-hover:text-primary" />
-            <span className="font-medium">Experiencia</span>
+            <span className="font-medium">{t.experiencia}</span>
           </Link>
-          <Link href={isMainPage ? '#formacion' : '/#formacion'} onClick={(e) => handleDesktopLinkClick(e, 'formacion')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
+          <Link href={isMainPage ? '#formacion' : `${mainPath}#formacion`} onClick={(e) => handleDesktopLinkClick(e, 'formacion')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
             <GraduationCap size={20} className="group-hover:text-primary" />
-            <span className="font-medium">Formación</span>
+            <span className="font-medium">{t.formacion}</span>
           </Link>
-          <Link href={isMainPage ? '#habilidades' : '/#habilidades'} onClick={(e) => handleDesktopLinkClick(e, 'habilidades')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
+          <Link href={isMainPage ? '#habilidades' : `${mainPath}#habilidades`} onClick={(e) => handleDesktopLinkClick(e, 'habilidades')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
             <BookOpen size={20} className="group-hover:text-primary" />
-            <span className="font-medium">Habilidades</span>
+            <span className="font-medium">{t.habilidades}</span>
           </Link>
-          <Link href={isMainPage ? '#otras-habilidades' : '/#otras-habilidades'} onClick={(e) => handleDesktopLinkClick(e, 'otras-habilidades')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
+          <Link href={isMainPage ? '#otras-habilidades' : `${mainPath}#otras-habilidades`} onClick={(e) => handleDesktopLinkClick(e, 'otras-habilidades')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
             <Sparkles size={20} className="group-hover:text-primary" />
-            <span className="font-medium">Otras Habilidades</span>
+            <span className="font-medium">{t.otrasHabilidades}</span>
           </Link>
-          <Link href={isMainPage ? '#idiomas' : '/#idiomas'} onClick={(e) => handleDesktopLinkClick(e, 'idiomas')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
+          <Link href={isMainPage ? '#idiomas' : `${mainPath}#idiomas`} onClick={(e) => handleDesktopLinkClick(e, 'idiomas')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
             <Globe size={20} className="group-hover:text-primary" />
-            <span className="font-medium">Idiomas</span>
+            <span className="font-medium">{t.idiomas}</span>
           </Link>
-          <Link href={isMainPage ? '#contacto' : '/#contacto'} onClick={(e) => handleDesktopLinkClick(e, 'contacto')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
+          <Link href={isMainPage ? '#contacto' : `${mainPath}#contacto`} onClick={(e) => handleDesktopLinkClick(e, 'contacto')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
             <Mail size={20} className="group-hover:text-primary" />
-            <span className="font-medium">Contacto</span>
+            <span className="font-medium">{t.contacto}</span>
           </Link>
         </nav>
 
         {/* Tarjeta de Llamada a la Acción (CTA) de Contratación con borde giratorio Google */}
         <div className="relative mx-4 mb-4 p-[3px] rounded-xl overflow-hidden shadow-md shrink-0">
-          {/* Contenedor centrado para el gradiente giratorio que evita huecos negros en cualquier proporción */}
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-[300%] aspect-square shrink-0 bg-[conic-gradient(from_0deg,#4285F4,#EA4335,#FBBC05,#34A853,#4285F4)] animate-[spin_8s_linear_infinite]" />
           </div>
@@ -173,17 +239,17 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
           <div className="relative px-6 py-4 bg-panel border border-panel-border/30 rounded-[10px] text-center space-y-3">
             <div className="flex items-center justify-center gap-2">
               <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-[10px] text-muted font-bold uppercase tracking-wider">Disponible para trabajar</span>
+              <span className="text-[10px] text-muted font-bold uppercase tracking-wider">{t.disponible}</span>
             </div>
             <p className="text-xs text-foreground/90 leading-relaxed font-medium">
-              ¿Buscas impulsar tu proyecto o reforzar tu equipo?
+              {t.ctaPregunta}
             </p>
             <Link 
-              href={isMainPage ? '#contacto' : '/#contacto'} 
+              href={isMainPage ? '#contacto' : `${mainPath}#contacto`} 
               onClick={(e) => handleDesktopLinkClick(e, 'contacto')}
               className="inline-flex w-full items-center justify-center px-4 py-2 text-xs font-bold text-white bg-primary hover:bg-primary-hover rounded-lg shadow-md transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
             >
-              ¡Hablemos!
+              {t.ctaBoton}
             </Link>
           </div>
         </div>
@@ -195,7 +261,7 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
               target="_blank" 
               rel="noopener noreferrer" 
               className="text-muted hover:text-primary hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center p-2 bg-panel-border/30 rounded-full hover:bg-primary/10 group"
-              aria-label="Perfil de GitHub"
+              aria-label={t.githubAlt}
             >
               <svg
                 className="w-6 h-6 text-muted group-hover:text-primary transition-colors"
@@ -221,7 +287,7 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
               target="_blank" 
               rel="noopener noreferrer" 
               className="text-muted hover:text-primary hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center p-2 bg-panel-border/30 rounded-full hover:bg-primary/10 group"
-              aria-label="Perfil de LinkedIn"
+              aria-label={t.linkedinAlt}
             >
               <svg
                 className="w-6 h-6 fill-current text-muted group-hover:text-primary transition-colors"
@@ -243,7 +309,7 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
           <div 
             onClick={handleScrollToTop}
             className="h-12 cursor-pointer flex items-center"
-            title="Volver arriba"
+            title={t.volverArriba}
           >
             <img 
               src={theme === 'light' 
@@ -255,6 +321,13 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
             />
           </div>
           <div className="flex items-center gap-3">
+            <Link
+              href={getSwitchLocaleUrl(locale === 'es' ? 'en' : 'es')}
+              className="text-primary hover:text-primary-hover p-1 rounded-lg focus:outline-none transition-colors cursor-pointer flex items-center justify-center text-xs font-extrabold border border-primary/20 bg-primary/5 hover:bg-primary/10 w-9 h-9"
+              title={locale === 'es' ? "Switch to English" : "Cambiar a Español"}
+            >
+              {locale === 'es' ? 'EN' : 'ES'}
+            </Link>
             <button 
               className="text-primary hover:text-primary-hover p-1 rounded-lg focus:outline-none transition-colors cursor-pointer flex items-center justify-center"
               onClick={toggleTheme}
@@ -277,33 +350,33 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
           isMenuOpen ? 'max-h-[450px] opacity-100 py-4 border-t' : 'max-h-0 opacity-0 py-0'
         }`}>
           <nav className="flex flex-col px-6 space-y-1">
-            <Link href={isMainPage ? '#proyectos' : '/#proyectos'} onClick={(e) => handleMobileLinkClick(e, 'proyectos')} className="flex items-center gap-3 py-3 text-muted hover:text-primary transition-colors">
+            <Link href={isMainPage ? '#proyectos' : `${mainPath}#proyectos`} onClick={(e) => handleMobileLinkClick(e, 'proyectos')} className="flex items-center gap-3 py-3 text-muted hover:text-primary transition-colors">
               <Briefcase size={18} />
-              <span className="font-medium">Portfolio</span>
+              <span className="font-medium">{t.portfolio}</span>
             </Link>
-            <Link href={isMainPage ? '#experiencia' : '/#experiencia'} onClick={(e) => handleMobileLinkClick(e, 'experiencia')} className="flex items-center gap-3 py-3 text-muted hover:text-primary transition-colors">
+            <Link href={isMainPage ? '#experiencia' : `${mainPath}#experiencia`} onClick={(e) => handleMobileLinkClick(e, 'experiencia')} className="flex items-center gap-3 py-3 text-muted hover:text-primary transition-colors">
               <Cpu size={18} />
-              <span className="font-medium">Experiencia</span>
+              <span className="font-medium">{t.experiencia}</span>
             </Link>
-            <Link href={isMainPage ? '#formacion' : '/#formacion'} onClick={(e) => handleMobileLinkClick(e, 'formacion')} className="flex items-center gap-3 py-3 text-muted hover:text-primary transition-colors">
+            <Link href={isMainPage ? '#formacion' : `${mainPath}#formacion`} onClick={(e) => handleMobileLinkClick(e, 'formacion')} className="flex items-center gap-3 py-3 text-muted hover:text-primary transition-colors">
               <GraduationCap size={18} />
-              <span className="font-medium">Formación</span>
+              <span className="font-medium">{t.formacion}</span>
             </Link>
-            <Link href={isMainPage ? '#habilidades' : '/#habilidades'} onClick={(e) => handleMobileLinkClick(e, 'habilidades')} className="flex items-center gap-3 py-3 text-muted hover:text-primary transition-colors">
+            <Link href={isMainPage ? '#habilidades' : `${mainPath}#habilidades`} onClick={(e) => handleMobileLinkClick(e, 'habilidades')} className="flex items-center gap-3 py-3 text-muted hover:text-primary transition-colors">
               <BookOpen size={18} />
-              <span className="font-medium">Habilidades</span>
+              <span className="font-medium">{t.habilidades}</span>
             </Link>
-            <Link href={isMainPage ? '#otras-habilidades' : '/#otras-habilidades'} onClick={(e) => handleMobileLinkClick(e, 'otras-habilidades')} className="flex items-center gap-3 py-3 text-muted hover:text-primary transition-colors">
+            <Link href={isMainPage ? '#otras-habilidades' : `${mainPath}#otras-habilidades`} onClick={(e) => handleMobileLinkClick(e, 'otras-habilidades')} className="flex items-center gap-3 py-3 text-muted hover:text-primary transition-colors">
               <Sparkles size={18} />
-              <span className="font-medium">Otras Habilidades</span>
+              <span className="font-medium">{t.otrasHabilidades}</span>
             </Link>
-            <Link href={isMainPage ? '#idiomas' : '/#idiomas'} onClick={(e) => handleMobileLinkClick(e, 'idiomas')} className="flex items-center gap-3 py-3 text-muted hover:text-primary transition-colors">
+            <Link href={isMainPage ? '#idiomas' : `${mainPath}#idiomas`} onClick={(e) => handleMobileLinkClick(e, 'idiomas')} className="flex items-center gap-3 py-3 text-muted hover:text-primary transition-colors">
               <Globe size={18} />
-              <span className="font-medium">Idiomas</span>
+              <span className="font-medium">{t.idiomas}</span>
             </Link>
-            <Link href={isMainPage ? '#contacto' : '/#contacto'} onClick={(e) => handleMobileLinkClick(e, 'contacto')} className="flex items-center gap-3 py-3 text-muted hover:text-primary transition-colors">
+            <Link href={isMainPage ? '#contacto' : `${mainPath}#contacto`} onClick={(e) => handleMobileLinkClick(e, 'contacto')} className="flex items-center gap-3 py-3 text-muted hover:text-primary transition-colors">
               <Mail size={18} />
-              <span className="font-medium">Contacto</span>
+              <span className="font-medium">{t.contacto}</span>
             </Link>
           </nav>
         </div>
@@ -317,7 +390,7 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
         <div className="flex-1">
           {children}
         </div>
-        <Footer userName={userName} />
+        <Footer userName={userName} locale={locale} />
       </main>
       <ScrollToTop />
     </div>

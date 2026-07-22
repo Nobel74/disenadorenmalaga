@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Mail, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 
-export default function ContactSection() {
+export default function ContactSection({ locale = 'es' }: { locale?: string }) {
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
@@ -16,6 +16,65 @@ export default function ContactSection() {
 
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+
+  const translations = {
+    es: {
+      titulo: 'Contacto',
+      pregunta: '¿Hablamos de tu próximo proyecto?',
+      p1: '¿Tienes una propuesta de colaboración interesante, buscas incorporar un perfil **Fullstack Developer** apasionado por la excelencia a tu equipo, o simplemente quieres consultar alguna duda?',
+      p2: 'Rellena el formulario de contacto o escríbeme directamente. Estoy listo para aportar soluciones de diseño premium, desarrollo de alto rendimiento y posicionamiento SEO estratégico que hagan destacar tus proyectos digitales.',
+      exito: '¡Mensaje enviado con éxito!',
+      exitoDesc: 'Muchas gracias por ponerte en contacto. Responderé a tu correo a la mayor brevedad posible para conversar en detalle.',
+      otroMensaje: 'Enviar otro mensaje',
+      errorPrivacidad: 'Debes aceptar la política de privacidad para enviar el formulario.',
+      labelNombre: 'Nombre completo',
+      phNombre: 'Ej. Juan Pérez',
+      labelEmail: 'Correo electrónico',
+      phEmail: 'juan@empresa.com',
+      labelAsunto: 'Asunto o Empresa',
+      phAsunto: 'Ej. Propuesta de colaboración / Nombre Empresa',
+      labelMensaje: 'Mensaje',
+      phMensaje: 'Escribe aquí los detalles de tu propuesta...',
+      GDPRCheckbox: 'Acepto que mis datos sean tratados de acuerdo con la ',
+      GDPRLink: 'Política de Privacidad',
+      GDPRFinal: ' para dar respuesta a mi solicitud de contacto.',
+      enviar: 'Enviar mensaje',
+      enviando: 'Enviando propuesta...',
+      disponible: 'Disponible para trabajar',
+      ctaPregunta: '¿Buscas impulsar tu proyecto o reforzar tu equipo?',
+      ctaDesc: 'Hagamos realidad tus ideas con un código sólido, interfaces interactivas atractivas y buenas prácticas de seguridad y accesibilidad.',
+      ubicacion: 'Málaga, España / Remoto (Internacional)',
+    },
+    en: {
+      titulo: 'Contact',
+      pregunta: 'Let\'s talk about your next project!',
+      p1: 'Have an interesting collaboration proposal, looking to add a **Fullstack Developer** passionate about excellence to your team, or simply want to ask a question?',
+      p2: 'Fill out the contact form or write to me directly. I am ready to provide premium design solutions, high-performance development, and strategic SEO positioning to make your digital projects stand out.',
+      exito: 'Message sent successfully!',
+      exitoDesc: 'Thank you very much for getting in touch. I will reply to your email as soon as possible to talk in detail.',
+      otroMensaje: 'Send another message',
+      errorPrivacidad: 'You must accept the privacy policy to send the form.',
+      labelNombre: 'Full Name',
+      phNombre: 'e.g. John Doe',
+      labelEmail: 'Email Address',
+      phEmail: 'john@company.com',
+      labelAsunto: 'Subject or Company',
+      phAsunto: 'e.g. Collaboration Proposal / Company Name',
+      labelMensaje: 'Message',
+      phMensaje: 'Write the details of your proposal here...',
+      GDPRCheckbox: 'I agree to my data being processed in accordance with the ',
+      GDPRLink: 'Privacy Policy',
+      GDPRFinal: ' to respond to my contact request.',
+      enviar: 'Send Message',
+      enviando: 'Sending proposal...',
+      disponible: 'Available for work',
+      ctaPregunta: 'Looking to boost your project or strengthen your team?',
+      ctaDesc: 'Let\'s make your ideas a reality with solid code, engaging interactive interfaces, and good security and accessibility practices.',
+      ubicacion: 'Malaga, Spain / Remote (International)',
+    }
+  };
+
+  const t = locale === 'en' ? translations.en : translations.es;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
@@ -31,7 +90,7 @@ export default function ContactSection() {
     e.preventDefault();
     if (!formData.privacidad) {
       setStatus('error');
-      setErrorMessage('Debes aceptar la política de privacidad para enviar el formulario.');
+      setErrorMessage(t.errorPrivacidad);
       return;
     }
 
@@ -80,19 +139,19 @@ export default function ContactSection() {
   return (
     <section id="contacto" className="space-y-8 scroll-margin-top">
       <h2 className="text-3xl font-bold text-primary flex items-center gap-3">
-        <Mail size={32} /> Contacto
+        <Mail size={32} /> {t.titulo}
       </h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
         {/* Columna Izquierda: Información SEO */}
         <div className="lg:col-span-5 space-y-6 flex flex-col justify-center">
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-foreground">¿Hablamos de tu próximo proyecto?</h3>
+            <h3 className="text-xl font-semibold text-foreground">{t.pregunta}</h3>
             <p className="text-muted leading-relaxed">
-              ¿Tienes una propuesta de colaboración interesante, buscas incorporar un perfil **Fullstack Developer** apasionado por la excelencia a tu equipo, o simplemente quieres consultar alguna duda? 
+              {t.p1}
             </p>
             <p className="text-muted leading-relaxed">
-              Rellena el formulario de contacto o escríbeme directamente. Estoy listo para aportar soluciones de diseño premium, desarrollo de alto rendimiento y posicionamiento SEO estratégico que hagan destacar tus proyectos digitales.
+              {t.p2}
             </p>
           </div>
         </div>
@@ -104,15 +163,15 @@ export default function ContactSection() {
               <div className="inline-flex items-center justify-center p-3 bg-green-500/10 text-green-500 rounded-full mb-2">
                 <CheckCircle2 size={48} />
               </div>
-              <h3 className="text-xl font-bold text-foreground">¡Mensaje enviado con éxito!</h3>
+              <h3 className="text-xl font-bold text-foreground">{t.exito}</h3>
               <p className="text-muted max-w-md mx-auto">
-                Muchas gracias por ponerte en contacto. Responderé a tu correo a la mayor brevedad posible para conversar en detalle.
+                {t.exitoDesc}
               </p>
               <button 
                 onClick={() => setStatus('idle')} 
                 className="mt-4 px-6 py-2 bg-primary hover:bg-primary-hover text-white font-bold rounded-lg transition-colors cursor-pointer"
               >
-                Enviar otro mensaje
+                {t.otroMensaje}
               </button>
             </div>
           ) : (
@@ -126,7 +185,7 @@ export default function ContactSection() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-2.5">
-                  <label htmlFor="nombre" className="text-sm font-semibold text-foreground/90">Nombre completo</label>
+                  <label htmlFor="nombre" className="text-sm font-semibold text-foreground/90">{t.labelNombre}</label>
                   <input
                     type="text"
                     id="nombre"
@@ -134,12 +193,12 @@ export default function ContactSection() {
                     value={formData.nombre}
                     onChange={handleChange}
                     required
-                    placeholder="Ej. Juan Pérez"
+                    placeholder={t.phNombre}
                     className="w-full px-4 py-2.5 rounded-lg bg-background border border-panel-border text-foreground placeholder:text-muted/70 hover:border-primary/50 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300"
                   />
                 </div>
                 <div className="flex flex-col gap-2.5">
-                  <label htmlFor="email" className="text-sm font-semibold text-foreground/90">Correo electrónico</label>
+                  <label htmlFor="email" className="text-sm font-semibold text-foreground/90">{t.labelEmail}</label>
                   <input
                     type="email"
                     id="email"
@@ -147,14 +206,14 @@ export default function ContactSection() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    placeholder="juan@empresa.com"
+                    placeholder={t.phEmail}
                     className="w-full px-4 py-2.5 rounded-lg bg-background border border-panel-border text-foreground placeholder:text-muted/70 hover:border-primary/50 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300"
                   />
                 </div>
               </div>
 
               <div className="flex flex-col gap-2.5">
-                <label htmlFor="asunto" className="text-sm font-semibold text-foreground/90">Asunto o Empresa</label>
+                <label htmlFor="asunto" className="text-sm font-semibold text-foreground/90">{t.labelAsunto}</label>
                 <input
                   type="text"
                   id="asunto"
@@ -162,13 +221,13 @@ export default function ContactSection() {
                   value={formData.asunto}
                   onChange={handleChange}
                   required
-                  placeholder="Ej. Propuesta de colaboración / Nombre Empresa"
+                  placeholder={t.phAsunto}
                   className="w-full px-4 py-2.5 rounded-lg bg-background border border-panel-border text-foreground placeholder:text-muted/70 hover:border-primary/50 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300"
                 />
               </div>
 
               <div className="flex flex-col gap-2.5">
-                <label htmlFor="mensaje" className="text-sm font-semibold text-foreground/90">Mensaje</label>
+                <label htmlFor="mensaje" className="text-sm font-semibold text-foreground/90">{t.labelMensaje}</label>
                 <textarea
                   id="mensaje"
                   name="mensaje"
@@ -176,7 +235,7 @@ export default function ContactSection() {
                   value={formData.mensaje}
                   onChange={handleChange}
                   required
-                  placeholder="Escribe aquí los detalles de tu propuesta..."
+                  placeholder={t.phMensaje}
                   className="w-full px-4 py-2.5 rounded-lg bg-background border border-panel-border text-foreground placeholder:text-muted/70 hover:border-primary/50 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300 resize-none"
                 />
               </div>
@@ -205,7 +264,7 @@ export default function ContactSection() {
                   className="mt-1 w-4 h-4 rounded border-panel-border text-primary bg-background focus:ring-primary/20 accent-primary cursor-pointer"
                 />
                 <label htmlFor="privacidad" className="text-xs text-muted/80 leading-relaxed cursor-pointer select-none">
-                  Acepto que mis datos sean tratados de acuerdo con la <Link href="/politica-privacidad" className="text-primary hover:underline font-semibold">Política de Privacidad</Link> para dar respuesta a mi solicitud de contacto.
+                  {t.GDPRCheckbox}<Link href={`/${locale}/politica-privacidad`} className="text-primary hover:underline font-semibold">{t.GDPRLink}</Link>{t.GDPRFinal}
                 </label>
               </div>
 
@@ -217,12 +276,12 @@ export default function ContactSection() {
                 {status === 'loading' ? (
                   <>
                     <span className="w-5 h-5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-                    Enviando propuesta...
+                    {t.enviando}
                   </>
                 ) : (
                   <>
                     <Send size={18} />
-                    Enviar mensaje
+                    {t.enviar}
                   </>
                 )}
               </button>
@@ -242,14 +301,14 @@ export default function ContactSection() {
         <div className="relative p-6 bg-panel border border-panel-border/30 rounded-[10px] space-y-4">
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-xs text-muted font-bold uppercase tracking-wider">Disponible para trabajar</span>
+            <span className="text-xs text-muted font-bold uppercase tracking-wider">{t.disponible}</span>
           </div>
-          <h4 className="text-lg font-bold text-foreground">¿Buscas impulsar tu proyecto o reforzar tu equipo?</h4>
+          <h4 className="text-lg font-bold text-foreground">{t.ctaPregunta}</h4>
           <p className="text-sm text-muted leading-relaxed">
-            Hagamos realidad tus ideas con un código sólido, interfaces interactivas atractivas y buenas prácticas de seguridad y accesibilidad.
+            {t.ctaDesc}
           </p>
           <div className="text-xs text-muted/80 space-y-1.5 pt-2 border-t border-panel-border/50">
-            <p>📍 Málaga, España / Remoto (Internacional)</p>
+            <p>📍 {t.ubicacion}</p>
             <p>📧 <a href="mailto:info@disenadorenmalaga.es" className="text-primary hover:underline font-semibold">info@disenadorenmalaga.es</a></p>
           </div>
         </div>

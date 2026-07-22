@@ -5,6 +5,7 @@ import { Sparkles } from 'lucide-react';
 
 interface SoftSkillsSectionProps {
   softSkills: any[];
+  locale?: string;
 }
 
 interface CountUpProps {
@@ -43,7 +44,7 @@ function CountUp({ target, duration = 1500, start }: CountUpProps) {
   return <>{count}%</>;
 }
 
-export default function SoftSkillsSection({ softSkills }: SoftSkillsSectionProps) {
+export default function SoftSkillsSection({ softSkills, locale = 'es' }: SoftSkillsSectionProps) {
   const [animated, setAnimated] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -77,7 +78,7 @@ export default function SoftSkillsSection({ softSkills }: SoftSkillsSectionProps
   return (
     <section id="otras-habilidades" className="space-y-8" ref={sectionRef}>
       <h2 className="text-3xl font-bold text-primary flex items-center gap-3">
-        <Sparkles size={32} /> Otras habilidades
+        <Sparkles size={32} /> {locale === 'en' ? 'Other Skills' : 'Otras Habilidades'}
       </h2>
       <div className="bg-panel rounded-xl p-6 md:p-8 border border-panel-border shadow-lg space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">

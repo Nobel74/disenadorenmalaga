@@ -7,9 +7,10 @@ import LightboxModal from '../LightboxModal';
 
 interface PortfolioSectionProps {
   proyectos: any[];
+  locale?: string;
 }
 
-export default function PortfolioSection({ proyectos }: PortfolioSectionProps) {
+export default function PortfolioSection({ proyectos, locale = 'es' }: PortfolioSectionProps) {
   const [activePage, setActivePage] = useState(0);
   const [isMobileView, setIsMobileView] = useState(false);
   const [lightboxData, setLightboxData] = useState<{
@@ -21,6 +22,23 @@ export default function PortfolioSection({ proyectos }: PortfolioSectionProps) {
     images: [],
     title: ''
   });
+
+  const translations = {
+    es: {
+      titulo: 'Portfolio',
+      prev: 'Página anterior',
+      next: 'Página siguiente',
+      goTo: 'Ir a la página',
+    },
+    en: {
+      titulo: 'Portfolio',
+      prev: 'Previous page',
+      next: 'Next page',
+      goTo: 'Go to page',
+    }
+  };
+
+  const t = locale === 'en' ? translations.en : translations.es;
 
   const handleOpenLightbox = (data: { images: Array<{ url: string; alt: string }>; title: string }) => {
     setLightboxData({
@@ -90,7 +108,7 @@ export default function PortfolioSection({ proyectos }: PortfolioSectionProps) {
       {/* Cabecera de la Sección Portfolio */}
       <div className="flex justify-between items-center">
         <h2 className="text-3xl font-bold text-primary flex items-center gap-3">
-          <Briefcase size={32} /> Portfolio
+          <Briefcase size={32} /> {t.titulo}
         </h2>
 
         {/* Flechas de Navegación superior (versión escritorio) */}
@@ -100,8 +118,8 @@ export default function PortfolioSection({ proyectos }: PortfolioSectionProps) {
               onClick={handlePrev}
               disabled={activePage === 0}
               className="p-2.5 rounded-lg bg-panel border border-primary/30 text-primary hover:bg-primary hover:text-white hover:border-primary disabled:opacity-30 disabled:pointer-events-none hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer shadow-md shadow-primary/10"
-              aria-label="Página anterior"
-              title="Página anterior"
+              aria-label={t.prev}
+              title={t.prev}
             >
               <ChevronLeft size={20} />
             </button>
@@ -109,8 +127,8 @@ export default function PortfolioSection({ proyectos }: PortfolioSectionProps) {
               onClick={handleNext}
               disabled={activePage === totalPages - 1}
               className="p-2.5 rounded-lg bg-panel border border-primary/30 text-primary hover:bg-primary hover:text-white hover:border-primary disabled:opacity-30 disabled:pointer-events-none hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer shadow-md shadow-primary/10"
-              aria-label="Página siguiente"
-              title="Página siguiente"
+              aria-label={t.next}
+              title={t.next}
             >
               <ChevronRight size={20} />
             </button>
@@ -152,7 +170,7 @@ export default function PortfolioSection({ proyectos }: PortfolioSectionProps) {
                 onClick={handlePrev}
                 disabled={activePage === 0}
                 className="p-2 rounded-lg bg-panel border border-primary/30 text-primary hover:bg-primary hover:text-white disabled:opacity-30 disabled:hover:text-muted transition-colors cursor-pointer"
-                aria-label="Página anterior"
+                aria-label={t.prev}
               >
                 <ChevronLeft size={20} />
               </button>
@@ -177,7 +195,7 @@ export default function PortfolioSection({ proyectos }: PortfolioSectionProps) {
                 onClick={handleNext}
                 disabled={activePage === totalPages - 1}
                 className="p-2 rounded-lg bg-panel border border-primary/30 text-primary hover:bg-primary hover:text-white disabled:opacity-30 disabled:hover:text-muted transition-colors cursor-pointer"
-                aria-label="Página siguiente"
+                aria-label={t.next}
               >
                 <ChevronRight size={20} />
               </button>
@@ -224,7 +242,7 @@ export default function PortfolioSection({ proyectos }: PortfolioSectionProps) {
                       ? 'w-9 bg-primary shadow-md shadow-primary/30'
                       : 'w-2.5 bg-panel-border hover:bg-primary/50'
                   }`}
-                  aria-label={`Ir a la página ${idx + 1}`}
+                  aria-label={`${t.goTo} ${idx + 1}`}
                 />
               ))}
             </div>

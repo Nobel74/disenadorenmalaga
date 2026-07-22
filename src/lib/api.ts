@@ -38,10 +38,10 @@ export async function fetchAPI(query: string, { variables }: { variables?: any }
   }
 }
 
-export async function getExperiencias() {
+export async function getExperiencias(locale: string = 'es') {
   const data = await fetchAPI(`
-    query ObtenerExperiencias {
-      experiencias(first: 100) {
+    query ObtenerExperiencias($language: LanguageCodeFilterEnum!) {
+      experiencias(first: 100, where: { language: $language }) {
         edges {
           node {
             title
@@ -57,14 +57,18 @@ export async function getExperiencias() {
         }
       }
     }
-  `);
+  `, {
+    variables: {
+      language: locale.toUpperCase()
+    }
+  });
   return data?.experiencias?.edges || [];
 }
 
-export async function getFormacion() {
+export async function getFormacion(locale: string = 'es') {
   const data = await fetchAPI(`
-    query ObtenerFormacion {
-      formaciones(first: 100) {
+    query ObtenerFormacion($language: LanguageCodeFilterEnum!) {
+      formaciones(first: 100, where: { language: $language }) {
         edges {
           node {
             title
@@ -79,18 +83,22 @@ export async function getFormacion() {
         }
       }
     }
-  `);
+  `, {
+    variables: {
+      language: locale.toUpperCase()
+    }
+  });
   return data?.formaciones?.edges || [];
 }
 
-export async function getProyectos() {
+export async function getProyectos(locale: string = 'es') {
   // Petición a la REST API nativa de WordPress
   const WP_URL = process.env.NEXT_PUBLIC_WORDPRESS_API_URL?.replace('/graphql', '');
   
   if (!WP_URL) return [];
 
   try {
-    const res = await fetch(`${WP_URL}/wp-json/wp/v2/portfolio?_embed`, { cache: 'no-store' });
+    const res = await fetch(`${WP_URL}/wp-json/wp/v2/portfolio?per_page=30&_embed&lang=${locale}`, { cache: 'no-store' });
     const data = await res.json();
 
     // Mapeamos los datos
@@ -181,10 +189,10 @@ export async function getProyectos() {
   }
 }
 
-export async function getHabilidades() {
+export async function getHabilidades(locale: string = 'es') {
   const data = await fetchAPI(`
-    query ObtenerHabilidades {
-      habilidades(first: 100) {
+    query ObtenerHabilidades($language: LanguageCodeFilterEnum!) {
+      habilidades(first: 100, where: { language: $language }) {
         edges {
           node {
             title
@@ -208,14 +216,18 @@ export async function getHabilidades() {
         }
       }
     }
-  `);
+  `, {
+    variables: {
+      language: locale.toUpperCase()
+    }
+  });
   return data?.habilidades?.edges || [];
 }
 
-export async function getIdiomas() {
+export async function getIdiomas(locale: string = 'es') {
   const data = await fetchAPI(`
-    query ObtenerIdiomas {
-      idiomas {
+    query ObtenerIdiomas($language: LanguageCodeFilterEnum!) {
+      idiomas(first: 30, where: { language: $language }) {
         edges {
           node {
             title
@@ -227,15 +239,19 @@ export async function getIdiomas() {
         }
       }
     }
-  `);
+  `, {
+    variables: {
+      language: locale.toUpperCase()
+    }
+  });
   return data?.idiomas?.edges || [];
 }
 
-export async function getHero() {
+export async function getHero(locale: string = 'es') {
   try {
     const data = await fetchAPI(`
-      query ObtenerHero {
-        heroes(first: 1) {
+      query ObtenerHero($language: LanguageCodeFilterEnum!) {
+        heroes(first: 1, where: { language: $language }) {
           edges {
             node {
               title
@@ -249,7 +265,33 @@ export async function getHero() {
           }
         }
       }
-    `);
+    `, {
+      variables: {
+        language: locale.toUpperCase()
+      }
+    });
+
+    if (!data?.heroes?.edges?.[0]?.node) {
+      const fallbackData = await fetchAPI(`
+        query ObtenerHeroFallback {
+          heroes(first: 1) {
+            edges {
+              node {
+                title
+                content
+                featuredImage {
+                  node {
+                    sourceUrl
+                  }
+                }
+              }
+            }
+          }
+        }
+      `);
+      return fallbackData?.heroes?.edges?.[0]?.node || null;
+    }
+
     return data?.heroes?.edges?.[0]?.node || null;
   } catch (error) {
     console.error('Error fetching hero CPT:', error);
@@ -257,11 +299,11 @@ export async function getHero() {
   }
 }
 
-export async function getSoftSkills() {
+export async function getSoftSkills(locale: string = 'es') {
   try {
     const data = await fetchAPI(`
-      query ObtenerSoftSkills {
-        habilidadesBlandas(first: 100) {
+      query ObtenerSoftSkills($language: LanguageCodeFilterEnum!) {
+        habilidadesBlandas(first: 100, where: { language: $language }) {
           edges {
             node {
               title
@@ -272,7 +314,11 @@ export async function getSoftSkills() {
           }
         }
       }
-    `);
+    `, {
+      variables: {
+        language: locale.toUpperCase()
+      }
+    });
     return data?.habilidadesBlandas?.edges || [];
   } catch (error) {
     console.error('Error fetching softSkills CPT:', error);
@@ -300,4 +346,3 @@ export async function getPageBySlug(slug: string) {
     return null;
   }
 }
-

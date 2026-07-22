@@ -4,18 +4,24 @@ import SkillRing from '../SkillRing';
 interface SkillsSectionProps {
   groupedSkills: Record<string, any[]>;
   uncategorizedSkills: any[];
+  locale?: string;
 }
 
-export default function SkillsSection({ groupedSkills, uncategorizedSkills }: SkillsSectionProps) {
+export default function SkillsSection({ groupedSkills, uncategorizedSkills, locale = 'es' }: SkillsSectionProps) {
   const getSkillPercent = (h: any) => {
     const fields = h?.node?.habilidades || h?.node?.habilidadesFields || {};
     return Number(fields.porcentajeDeDominio || 0);
   };
 
+  const t = {
+    title: locale === 'en' ? 'Skills' : 'Habilidades',
+    otherSkills: locale === 'en' ? 'Other Skills' : 'Otras Habilidades',
+  };
+
   return (
     <section id="habilidades" className="space-y-12">
       <h2 className="text-3xl font-bold text-primary flex items-center gap-3">
-        <BookOpen size={32} /> Habilidades
+        <BookOpen size={32} /> {t.title}
       </h2>
       
       {Object.entries(groupedSkills).map(([categoryName, skills]) => {
@@ -53,7 +59,7 @@ export default function SkillsSection({ groupedSkills, uncategorizedSkills }: Sk
         <div className="space-y-6">
           {Object.keys(groupedSkills).length > 0 && (
             <h3 className="text-2xl font-semibold text-foreground border-b border-panel-border pb-2">
-              Otras Habilidades
+              {t.otherSkills}
             </h3>
           )}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-6">
