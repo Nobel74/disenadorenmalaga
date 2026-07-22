@@ -74,7 +74,7 @@ export default function SkillRing({ title, percentage, logoUrl, customColor }: S
   return (
     <div 
       ref={containerRef}
-      className="flex flex-col items-center justify-between p-3 sm:p-4 bg-panel rounded-xl border border-panel-border shadow-lg hover:border-primary/50 transition-all hover:-translate-y-1 duration-300 group h-full w-full overflow-hidden"
+      className="flex flex-col items-center justify-between p-3 sm:p-4 bg-panel rounded-xl border border-panel-border shadow-lg hover:border-primary/50 transition-all hover:-translate-y-1 duration-300 group h-full w-full overflow-hidden print:break-inside-avoid"
       style={{ '--hover-color': ringColor } as React.CSSProperties}
     >
       <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 flex items-center justify-center mb-2 sm:mb-3 shrink-0">
