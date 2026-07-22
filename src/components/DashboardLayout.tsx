@@ -230,7 +230,7 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
         </nav>
 
         {/* Tarjeta de Llamada a la Acción (CTA) de Contratación con borde giratorio Google */}
-        <div className="relative mx-4 mb-4 p-[3px] rounded-xl overflow-hidden shadow-md shrink-0">
+        <div className="relative mx-4 mb-4 p-[3px] rounded-xl overflow-hidden shadow-md shrink-0 mt-auto">
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="w-[300%] aspect-square shrink-0 bg-[conic-gradient(from_0deg,#4285F4,#EA4335,#FBBC05,#34A853,#4285F4)] animate-[spin_8s_linear_infinite]" />
           </div>
