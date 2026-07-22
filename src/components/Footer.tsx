@@ -17,12 +17,14 @@ export default function Footer({ userName = "Francisco Fernández", locale = "es
       cookiesPolicy: "Política de cookies",
       rightsReserved: "Todos los derechos reservados.",
       role: "Fullstack Developer",
+      copyright: "Francisco Fernández, Diseñador Gráfico y Web en Málaga. Todos los derechos reservados."
     },
     en: {
       privacyPolicy: "Privacy Policy",
       cookiesPolicy: "Cookies Policy",
       rightsReserved: "All rights reserved.",
       role: "Fullstack Developer",
+      copyright: "Francisco Fernandez, Graphic & Web Designer in Malaga. All rights reserved."
     }
   };
 
@@ -52,7 +54,7 @@ export default function Footer({ userName = "Francisco Fernández", locale = "es
 
       {/* Copyright Subfooter con fondo ligeramente oscuro/grisáceo */}
       <div className="w-full py-5 bg-subfooter-bg border-t border-panel-border/20 text-xs text-foreground/90 mt-8 px-6 md:px-8 lg:px-12">
-        <p>© {currentYear} <a href="https://disenadorenmalaga.es" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary-hover font-semibold transition-colors">disenadorenmalaga.es</a>. {t.rightsReserved}</p>
+        <p>© {currentYear} {t.copyright}</p>
       </div>
     </footer>
   );

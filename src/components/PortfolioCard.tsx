@@ -117,7 +117,7 @@ export default function PortfolioCard({
         <div className="flex justify-between items-start mb-4">
           <div>
             <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">{title}</h3>
-            {role && <h4 className="text-sm font-medium text-primary mt-1">{role} {year ? `• ${year}` : ''}</h4>}
+            {role && <p className="text-sm font-medium text-primary mt-1">{role} {year ? `• ${year}` : ''}</p>}
           </div>
           <div className="flex gap-2">
             {repoUrl && (

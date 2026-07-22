@@ -36,13 +36,13 @@ export default function HeroSection({ userName, subtitle, description, photoUrl,
           )}
           
           <div className="space-y-6 max-w-4xl flex-1 text-center xl:text-left">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 text-xs font-bold tracking-wider text-primary uppercase bg-primary/10 border border-primary/20 rounded-full mx-auto xl:mx-0">
+            <h1 className="inline-flex items-center gap-2 px-4 py-1.5 text-xs font-bold tracking-wider text-primary uppercase bg-primary/10 border border-primary/20 rounded-full mx-auto xl:mx-0">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               {subtitle}
-            </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground tracking-tight leading-tight md:leading-none">
-              {greeting}<span className="text-primary bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">{userName}</span> <span className="wave-emoji">👋</span>
             </h1>
+            <p className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground tracking-tight leading-tight md:leading-none">
+              {greeting}<span className="text-primary bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">{userName}</span> <span className="wave-emoji">👋</span>
+            </p>
             <div 
               className="text-muted text-lg md:text-xl leading-relaxed md:max-w-none prose prose-invert mx-auto xl:mx-0 space-y-[25px] [&_p]:mb-[25px] [&_p:last-child]:mb-0"
               dangerouslySetInnerHTML={{ __html: description }}

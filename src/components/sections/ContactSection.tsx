@@ -303,7 +303,7 @@ export default function ContactSection({ locale = 'es' }: { locale?: string }) {
             <span className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
             <span className="text-xs text-muted font-bold uppercase tracking-wider">{t.disponible}</span>
           </div>
-          <h4 className="text-lg font-bold text-foreground">{t.ctaPregunta}</h4>
+          <p className="text-lg font-bold text-foreground">{t.ctaPregunta}</p>
           <p className="text-sm text-muted leading-relaxed">
             {t.ctaDesc}
           </p>

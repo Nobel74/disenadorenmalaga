@@ -68,7 +68,7 @@ function TimelineItemCard({ item }: { item: TimelineItem }) {
               {item.title}
             </h3>
             {item.subtitle && (
-              <h4 className="text-lg font-medium text-muted mt-1">
+              <p className="text-lg font-medium text-muted mt-1">
                 {item.url ? (
                   <a href={item.url} target="_blank" rel="noreferrer" className="hover:text-primary underline decoration-primary/30 underline-offset-4 transition-colors">
                     {item.subtitle}
@@ -76,7 +76,7 @@ function TimelineItemCard({ item }: { item: TimelineItem }) {
                 ) : (
                   item.subtitle
                 )}
-              </h4>
+              </p>
             )}
           </div>
           {(item.dateStart || item.dateEnd) && (
