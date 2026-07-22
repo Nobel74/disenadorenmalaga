@@ -7,6 +7,26 @@ import Link from 'next/link';
 import ScrollToTop from './ScrollToTop';
 import Footer from './Footer';
 
+// Bandera de España en SVG
+const SpainFlag = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2" className="w-5 h-3.5 rounded-[2px] shadow-sm inline-block shrink-0 border border-white/10">
+    <rect width="3" height="0.5" fill="#c1272d"/>
+    <rect width="3" height="1" y="0.5" fill="#fbeb10"/>
+    <rect width="3" height="0.5" y="1.5" fill="#c1272d"/>
+  </svg>
+);
+
+// Bandera de Reino Unido (UK) en SVG
+const UkFlag = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 30" className="w-5 h-3.5 rounded-[2px] shadow-sm inline-block shrink-0 border border-white/10">
+    <path d="M0 0v30h50V0z" fill="#012169"/>
+    <path d="M0 0l50 30M50 0L0 30" stroke="#fff" strokeWidth="6"/>
+    <path d="M0 0l50 30M50 0L0 30" stroke="#c8102e" strokeWidth="4"/>
+    <path d="M25 0v30M0 15h50" stroke="#fff" strokeWidth="10"/>
+    <path d="M25 0v30M0 15h50" stroke="#c8102e" strokeWidth="6"/>
+  </svg>
+);
+
 interface DashboardLayoutProps {
   children: React.ReactNode;
   userName?: string;
@@ -181,7 +201,7 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
           <div className="flex justify-center gap-2 mt-3 flex-wrap">
             <button 
               onClick={toggleTheme}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-panel-border/30 hover:bg-primary/10 hover:text-primary transition-all duration-300 text-xs font-semibold cursor-pointer text-muted"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-panel-border/30 hover:bg-primary/10 hover:text-primary transition-all duration-300 text-xs font-semibold cursor-pointer text-muted animate-fade-in"
             >
               {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
               <span>{theme === 'dark' ? t.modoClaro : t.modoOscuro}</span>
@@ -189,10 +209,10 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
             
             <Link
               href={getSwitchLocaleUrl(locale === 'es' ? 'en' : 'es')}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-panel-border/30 hover:bg-primary/10 hover:text-primary transition-all duration-300 text-xs font-semibold cursor-pointer text-muted font-bold"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-panel-border/30 hover:bg-primary/10 hover:text-primary transition-all duration-300 text-xs font-bold cursor-pointer text-muted"
               title={locale === 'es' ? "Switch to English" : "Cambiar a Español"}
             >
-              <span>🌐</span>
+              {locale === 'es' ? <UkFlag /> : <SpainFlag />}
               <span>{locale === 'es' ? 'EN' : 'ES'}</span>
             </Link>
           </div>
@@ -323,10 +343,11 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
           <div className="flex items-center gap-3">
             <Link
               href={getSwitchLocaleUrl(locale === 'es' ? 'en' : 'es')}
-              className="text-primary hover:text-primary-hover p-1 rounded-lg focus:outline-none transition-colors cursor-pointer flex items-center justify-center text-xs font-extrabold border border-primary/20 bg-primary/5 hover:bg-primary/10 w-9 h-9"
+              className="text-primary hover:text-primary-hover px-2 py-1 rounded-lg focus:outline-none transition-colors cursor-pointer flex items-center justify-center text-[10px] font-bold border border-primary/20 bg-primary/5 hover:bg-primary/10 h-9 gap-1.5"
               title={locale === 'es' ? "Switch to English" : "Cambiar a Español"}
             >
-              {locale === 'es' ? 'EN' : 'ES'}
+              {locale === 'es' ? <UkFlag /> : <SpainFlag />}
+              <span>{locale === 'es' ? 'EN' : 'ES'}</span>
             </Link>
             <button 
               className="text-primary hover:text-primary-hover p-1 rounded-lg focus:outline-none transition-colors cursor-pointer flex items-center justify-center"
