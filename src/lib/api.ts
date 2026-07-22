@@ -30,7 +30,7 @@ export async function fetchAPI(query: string, { variables }: { variables?: any }
         query,
         variables,
       }),
-      cache: 'no-store', // Deshabilita el almacenamiento en caché para desarrollo y actualizaciones en tiempo real
+      next: { revalidate: 60 }, // Revalida los datos cada 60 segundos
     });
 
     if (!res.ok) {
@@ -131,7 +131,7 @@ export async function getProyectos(locale: string = 'es') {
   if (!WP_URL) return [];
 
   try {
-    const res = await fetch(`${WP_URL}/wp-json/wp/v2/portfolio?per_page=30&_embed&lang=${locale}`, { cache: 'no-store' });
+    const res = await fetch(`${WP_URL}/wp-json/wp/v2/portfolio?per_page=30&_embed&lang=${locale}`, { next: { revalidate: 60 } });
     const data = await res.json();
 
     const projects = await Promise.all(data.map(async (item: any) => {
@@ -158,7 +158,7 @@ export async function getProyectos(locale: string = 'es') {
             }
             if (typeof img === 'number') {
               try {
-                const mediaRes = await fetch(`${WP_URL}/wp-json/wp/v2/media/${img}`, { cache: 'no-store' });
+                const mediaRes = await fetch(`${WP_URL}/wp-json/wp/v2/media/${img}`, { next: { revalidate: 60 } });
                 const mediaData = await mediaRes.json();
                 return {
                   url: mediaData.source_url || mediaData.media_details?.sizes?.full?.source_url || '',

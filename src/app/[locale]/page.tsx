@@ -41,13 +41,23 @@ function formatDateString(dateStr?: string, locale: string = 'es') {
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
 
-  const experiencias = await getExperiencias(locale);
-  const formacion = await getFormacion(locale);
-  const proyectos = await getProyectos(locale);
-  const habilidades = await getHabilidades(locale);
-  const idiomas = await getIdiomas(locale);
-  const hero = await getHero(locale);
-  const softSkills = await getSoftSkills(locale);
+  const [
+    experiencias,
+    formacion,
+    proyectos,
+    habilidades,
+    idiomas,
+    hero,
+    softSkills
+  ] = await Promise.all([
+    getExperiencias(locale),
+    getFormacion(locale),
+    getProyectos(locale),
+    getHabilidades(locale),
+    getIdiomas(locale),
+    getHero(locale),
+    getSoftSkills(locale)
+  ]);
 
   const heroTitle = hero?.title || "Paco Fernández";
   const heroSubtitle = hero?.heroFields?.subtitulo || "Fullstack Product Developer";
