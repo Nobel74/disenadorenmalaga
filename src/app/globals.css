@@ -61,6 +61,15 @@ body {
   background: var(--primary); 
 }
 
+/* Ocultar barra de scroll en el sidebar para mantener el diseño limpio pero permitir scroll */
+.sidebar-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE y Edge */
+}
+.sidebar-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari y Opera */
+}
+
 /* Offset para los enlaces de ancla (evita que los títulos queden tapados por el header móvil) */
 section[id] {
   scroll-margin-top: 96px; /* 64px de la cabecera móvil + 32px de margen estético */
@@ -112,5 +121,23 @@ section[id] {
 
 .prose li:hover::before {
   transform: scale(1.35) !important;
+}
+
+/* Animación sutil y premium para el emoji de la mano saludando */
+.wave-emoji {
+  display: inline-block;
+  animation: wave-shake 1.8s ease-in-out infinite;
+  transform-origin: 70% 70%; /* Punto de pivote en la muñeca para un movimiento natural */
+}
+
+@keyframes wave-shake {
+  0% { transform: rotate( 0.0deg) }
+  10% { transform: rotate(14.0deg) }
+  20% { transform: rotate(-8.0deg) }
+  30% { transform: rotate(14.0deg) }
+  40% { transform: rotate(-4.0deg) }
+  50% { transform: rotate(10.0deg) }
+  60% { transform: rotate( 0.0deg) }
+  100% { transform: rotate( 0.0deg) }
 }
 

@@ -104,8 +104,8 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-background overflow-x-hidden">
       {/* Sidebar Fija (Desktop) */}
-      <aside className="w-full md:w-64 bg-panel border-r border-panel-border hidden md:flex flex-col md:fixed md:inset-y-0 md:left-0 z-50">
-        <div className="p-6 border-b border-panel-border">
+      <aside className="w-full md:w-64 bg-panel border-r border-panel-border hidden md:flex flex-col md:fixed md:inset-y-0 md:left-0 z-50 md:overflow-y-auto sidebar-scrollbar">
+        <div className="p-6 border-b border-panel-border shrink-0">
           {/* Logo Imagotipo.svg - Doble F opuesta - Clic vuelve arriba */}
           <div 
             onClick={handleScrollToTop}
@@ -131,7 +131,7 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
           </div>
         </div>
         
-        <nav className="flex-1 p-4 space-y-2">
+        <nav className="p-4 space-y-2 shrink-0">
           <Link href={isMainPage ? '#proyectos' : '/#proyectos'} onClick={(e) => handleDesktopLinkClick(e, 'proyectos')} className="flex items-center gap-3 px-4 py-3 text-muted hover:text-primary hover:bg-primary/10 rounded-lg transition-colors group">
             <Briefcase size={20} className="group-hover:text-primary" />
             <span className="font-medium">Portfolio</span>
@@ -163,9 +163,11 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
         </nav>
 
         {/* Tarjeta de Llamada a la Acción (CTA) de Contratación con borde giratorio Google */}
-        <div className="relative mx-4 mb-4 p-[3px] rounded-xl overflow-hidden shadow-md">
-          {/* Fondo de Gradiente Conico de Google giratorio expandido y centrado para cubrir bordes y esquinas */}
-          <div className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] bg-[conic-gradient(from_0deg,#4285F4,#EA4335,#FBBC05,#34A853,#4285F4)] animate-[spin_8s_linear_infinite]" />
+        <div className="relative mx-4 mb-4 p-[3px] rounded-xl overflow-hidden shadow-md shrink-0">
+          {/* Contenedor centrado para el gradiente giratorio que evita huecos negros en cualquier proporción */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-[300%] aspect-square shrink-0 bg-[conic-gradient(from_0deg,#4285F4,#EA4335,#FBBC05,#34A853,#4285F4)] animate-[spin_8s_linear_infinite]" />
+          </div>
           
           {/* Contenido interior con borde sutil para delimitar */}
           <div className="relative px-6 py-4 bg-panel border border-panel-border/30 rounded-[10px] text-center space-y-3">
@@ -186,7 +188,7 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
           </div>
         </div>
 
-        <div className="p-6 border-t border-panel-border">
+        <div className="p-6 border-t border-panel-border shrink-0">
           <div className="flex justify-center">
             <a 
               href="https://www.linkedin.com/in/franciscofernandezrodriguez/" 

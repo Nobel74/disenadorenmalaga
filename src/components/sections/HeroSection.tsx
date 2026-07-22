@@ -10,7 +10,7 @@ interface HeroSectionProps {
 export default function HeroSection({ userName, subtitle, description, photoUrl }: HeroSectionProps) {
   return (
     <div className="mx-[-1rem] md:mx-[-12px] mt-[-1rem] md:mt-[-2rem] mb-16">
-      <section className="relative overflow-hidden bg-panel/10 backdrop-blur-sm px-8 py-20 md:px-[12px] md:py-32 flex flex-col justify-center">
+      <section className="relative overflow-hidden bg-panel/10 backdrop-blur-sm px-8 pt-10 pb-20 md:px-[12px] md:py-32 flex flex-col justify-center">
         <ParticleBackground />
         {/* Capa de degradado para fundir con el fondo en la parte inferior */}
         <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-background to-transparent pointer-events-none z-20" />
@@ -38,7 +38,7 @@ export default function HeroSection({ userName, subtitle, description, photoUrl 
               {subtitle}
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground tracking-tight leading-tight md:leading-none">
-              ¡Hola! Soy <span className="text-primary bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">{userName}</span> 👋
+              ¡Hola! Soy <span className="text-primary bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">{userName}</span> <span className="wave-emoji">👋</span>
             </h1>
             <div 
               className="text-muted text-lg md:text-xl leading-relaxed md:max-w-none prose prose-invert mx-auto lg:mx-0 space-y-[25px] [&_p]:mb-[25px] [&_p:last-child]:mb-0"

@@ -233,8 +233,10 @@ export default function ContactSection() {
 
       {/* Tarjeta de Contratación Destacada (Solo visible en móviles/tablets cuando la barra lateral se oculta) */}
       <div className="md:hidden mt-8 p-[3px] rounded-xl overflow-hidden shadow-xl relative">
-        {/* Fondo de Gradiente Conico de Google giratorio expandido y centrado para cubrir bordes y esquinas */}
-        <div className="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] bg-[conic-gradient(from_0deg,#4285F4,#EA4335,#FBBC05,#34A853,#4285F4)] animate-[spin_8s_linear_infinite]" />
+        {/* Contenedor centrado para el gradiente giratorio que evita huecos negros en cualquier proporción */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-[300%] aspect-square shrink-0 bg-[conic-gradient(from_0deg,#4285F4,#EA4335,#FBBC05,#34A853,#4285F4)] animate-[spin_8s_linear_infinite]" />
+        </div>
         
         {/* Contenido interior con borde sutil para delimitar */}
         <div className="relative p-6 bg-panel border border-panel-border/30 rounded-[10px] space-y-4">
