@@ -45,7 +45,7 @@ export default function Footer({ userName = "Francisco Fernández", locale = "es
 
       {/* Navigation Links */}
       <div className="flex items-center gap-4 sm:gap-6 text-sm text-muted px-6 md:px-8 lg:px-12 flex-wrap justify-center">
-        <Link href={`/${locale}/politica-privacidad`} className="hover:text-primary transition-colors cursor-pointer">{t.privacyPolicy}</Link>
+        <Link href={locale === 'en' ? '/en/privacy-policy' : '/es/politica-privacidad'} className="hover:text-primary transition-colors cursor-pointer">{t.privacyPolicy}</Link>
         <span className="text-panel-border hidden sm:inline">|</span>
         <a href="#" className="hover:text-primary transition-colors">{t.cookiesPolicy}</a>
       </div>
