@@ -3,6 +3,7 @@ import { Barlow } from "next/font/google";
 import "../globals.css";
 import CustomCursor from "@/components/CustomCursor";
 import JsonLdPerson from "@/components/JsonLdPerson";
+import CookieBanner from "@/components/CookieBanner";
 
 const barlow = Barlow({
   weight: ['300', '400', '500', '600', '700', '800'],
@@ -68,6 +69,7 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground">
         <CustomCursor />
         {children}
+        <CookieBanner locale={locale} />
       </body>
     </html>
   );
