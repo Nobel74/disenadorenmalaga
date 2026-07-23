@@ -55,6 +55,22 @@ const nextConfig: NextConfig = {
   experimental: {
     inlineCss: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'disenadorenmalaga.es',
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.disenadorenmalaga.es',
+      },
+      {
+        protocol: 'https',
+        hostname: 'secure.gravatar.com',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

@@ -1,4 +1,5 @@
 import ParticleBackground from '@/components/ParticleBackground';
+import Image from 'next/image';
 
 interface HeroSectionProps {
   userName: string;
@@ -26,9 +27,12 @@ export default function HeroSection({ userName, subtitle, description, photoUrl,
               
               {/* Contenedor interno de la imagen con borde delimitador */}
               <div className="relative w-full h-full rounded-full overflow-hidden bg-panel border border-panel-border/30">
-                <img 
+                <Image 
                   src={photoUrl} 
                   alt={userName} 
+                  width={320}
+                  height={320}
+                  priority
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
