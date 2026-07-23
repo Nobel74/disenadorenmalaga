@@ -59,6 +59,10 @@ const nextConfig: NextConfig = {
         source: '/en/privacy-policy',
         destination: '/en/politica-privacidad',
       },
+      {
+        source: '/en/cookies-policy',
+        destination: '/en/politica-cookies',
+      },
     ];
   },
   experimental: {
