@@ -163,3 +163,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
     </DashboardLayout>
   );
 }
+
+export async function generateStaticParams() {
+  return [
+    { locale: 'es' },
+    { locale: 'en' },
+  ];
+}
