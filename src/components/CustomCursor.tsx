@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function CustomCursor() {
   const [mounted, setMounted] = useState(false);
@@ -10,6 +11,15 @@ export default function CustomCursor() {
   const [isOnPrimaryBg, setIsOnPrimaryBg] = useState(false);
   const [isHidden, setIsHidden] = useState(true);
   const [isClicking, setIsClicking] = useState(false);
+  
+  const pathname = usePathname();
+
+  // Reset state on navigation to avoid stuck hover/contrast colors
+  useEffect(() => {
+    setIsHovered(false);
+    setIsOnPrimaryBg(false);
+    setIsClicking(false);
+  }, [pathname]);
 
   // Refs mutables para el bucle de animación para evitar cierres de ámbito desactualizados
   const mousePos = useRef({ x: -100, y: -100 });
