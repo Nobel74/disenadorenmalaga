@@ -42,6 +42,15 @@ const nextConfig: NextConfig = {
         source: '/(.*)',
         headers: securityHeaders,
       },
+      {
+        source: '/:path*\\.(svg|png|jpg|jpeg|gif|webp|ico)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, must-revalidate',
+          },
+        ],
+      },
     ];
   },
   async rewrites() {

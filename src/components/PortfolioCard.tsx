@@ -1,5 +1,6 @@
 import React from 'react';
 import { ExternalLink, Code2, ZoomIn } from 'lucide-react';
+import Image from 'next/image';
 
 interface PortfolioCardProps {
   title: string;
@@ -90,9 +91,11 @@ export default function PortfolioCard({
       >
         {imageUrl ? (
           <>
-            <img 
+            <Image 
               src={imageUrl} 
               alt={imageAlt || title} 
+              width={400}
+              height={192}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-panel/90 via-transparent to-transparent opacity-80 pointer-events-none" />
