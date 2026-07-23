@@ -40,6 +40,9 @@ export async function generateMetadata({
       apple: [
         { url: "/favicon.png", type: "image/png" }
       ]
+    },
+    verification: {
+      google: 'BgeDtshMSEYU2xPKpc1bER7RkTa1BuPnWt1Q_OXh0Oc'
     }
   };
 }
