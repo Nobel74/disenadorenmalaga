@@ -51,7 +51,7 @@ export default function Footer({ userName = "Francisco Fernández", locale = "es
       <div className="flex items-center gap-4 sm:gap-6 text-sm text-muted px-6 md:px-8 lg:px-12 flex-wrap justify-center">
         <Link href={locale === 'en' ? '/en/privacy-policy' : '/es/politica-privacidad'} className="hover:text-primary transition-colors cursor-pointer">{t.privacyPolicy}</Link>
         <span className="text-panel-border hidden sm:inline">|</span>
-        <Link href={locale === 'en' ? '/en/cookies-policy' : '/es/politica-cookies'} className="hover:text-primary transition-colors cursor-pointer">{t.cookiesPolicy}</Link>
+        <Link href={locale === 'en' ? '/en/cookies-policy' : '/es/politica-de-cookies'} className="hover:text-primary transition-colors cursor-pointer">{t.cookiesPolicy}</Link>
       </div>
 
       {/* Copyright Subfooter con fondo ligeramente oscuro/grisáceo */}

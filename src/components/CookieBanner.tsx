@@ -123,7 +123,7 @@ export default function CookieBanner({ locale = 'es' }: CookieBannerProps) {
               </Link>
               {t.and}
               <Link 
-                href={locale === 'en' ? '/en/cookies-policy' : '/es/politica-cookies'} 
+                href={locale === 'en' ? '/en/cookies-policy' : '/es/politica-de-cookies'} 
                 className="text-primary hover:underline font-semibold"
               >
                 {t.cookiesPolicyLink}

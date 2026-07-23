@@ -61,7 +61,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/en/cookies-policy',
-        destination: '/en/politica-cookies',
+        destination: '/en/politica-de-cookies',
       },
     ];
   },
