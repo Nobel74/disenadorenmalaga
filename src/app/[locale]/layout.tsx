@@ -4,6 +4,7 @@ import "../globals.css";
 import CustomCursor from "@/components/CustomCursor";
 import JsonLdPerson from "@/components/JsonLdPerson";
 import CookieBanner from "@/components/CookieBanner";
+import Analytics from "@/components/Analytics";
 
 const barlow = Barlow({
   weight: ['300', '400', '500', '600', '700', '800'],
@@ -67,6 +68,7 @@ export default async function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground">
+        <Analytics />
         <CustomCursor />
         {children}
         <CookieBanner locale={locale} />

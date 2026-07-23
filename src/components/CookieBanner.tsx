@@ -85,12 +85,18 @@ export default function CookieBanner({ locale = 'es' }: CookieBannerProps) {
   const handleAcceptAll = () => {
     setCookie('cookieConsent', 'accepted_all', 365);
     setCookie('cookieConsent_analytics', 'true', 365);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('cookie-consent-updated'));
+    }
     setIsVisible(false);
   };
 
   const handleRejectAll = () => {
     setCookie('cookieConsent', 'rejected_essential', 365);
     setCookie('cookieConsent_analytics', 'false', 365);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('cookie-consent-updated'));
+    }
     setIsVisible(false);
   };
 
@@ -98,6 +104,9 @@ export default function CookieBanner({ locale = 'es' }: CookieBannerProps) {
     const consentVal = preferences.analytics ? 'accepted_custom' : 'rejected_essential';
     setCookie('cookieConsent', consentVal, 365);
     setCookie('cookieConsent_analytics', preferences.analytics.toString(), 365);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('cookie-consent-updated'));
+    }
     setIsVisible(false);
   };
 
