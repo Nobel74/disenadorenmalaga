@@ -20,7 +20,9 @@ export default function CookieBanner({ locale = 'es' }: CookieBannerProps) {
     es: {
       title: "Control de Cookies",
       text: "Utilizamos cookies propias y de terceros para asegurar el correcto funcionamiento del sitio, analizar el tráfico y mejorar tu experiencia. Al hacer clic en 'Aceptar todas', consientes su uso. Puedes configurar tus preferencias o rechazar las no esenciales en cualquier momento. Consulta nuestra ",
-      policyLink: "Política de Privacidad y Cookies",
+      privacyPolicyLink: "Política de Privacidad",
+      and: " y nuestra ",
+      cookiesPolicyLink: "Política de Cookies",
       acceptAll: "Aceptar todas",
       rejectAll: "Rechazar no esenciales",
       configure: "Configurar",
@@ -33,7 +35,9 @@ export default function CookieBanner({ locale = 'es' }: CookieBannerProps) {
     en: {
       title: "Cookie Preferences",
       text: "We use our own and third-party cookies to ensure the proper functioning of the site, analyze traffic, and improve your experience. By clicking 'Accept all', you consent to their use. You can configure your preferences or reject non-essential cookies at any time. Read our ",
-      policyLink: "Privacy and Cookie Policy",
+      privacyPolicyLink: "Privacy Policy",
+      and: " and our ",
+      cookiesPolicyLink: "Cookies Policy",
       acceptAll: "Accept all",
       rejectAll: "Reject non-essential",
       configure: "Configure",
@@ -115,7 +119,14 @@ export default function CookieBanner({ locale = 'es' }: CookieBannerProps) {
                 href={locale === 'en' ? '/en/privacy-policy' : '/es/politica-privacidad'} 
                 className="text-primary hover:underline font-semibold"
               >
-                {t.policyLink}
+                {t.privacyPolicyLink}
+              </Link>
+              {t.and}
+              <Link 
+                href={locale === 'en' ? '/en/cookies-policy' : '/es/politica-cookies'} 
+                className="text-primary hover:underline font-semibold"
+              >
+                {t.cookiesPolicyLink}
               </Link>.
             </p>
           </div>
