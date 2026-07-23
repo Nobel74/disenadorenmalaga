@@ -14,6 +14,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/private/',
     },
-    sitemap: 'https://disenadorenmalaga.es/sitemap.xml',
+    sitemap: 'https://www.disenadorenmalaga.es/sitemap.xml',
   };
 }
