@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 import { Barlow } from "next/font/google";
-import dynamic from "next/dynamic";
 import "../globals.css";
-
-const CustomCursor = dynamic(() => import("@/components/CustomCursor"), {
-  ssr: false,
-});
+import CustomCursor from "@/components/CustomCursor";
 
 const barlow = Barlow({
   weight: ['300', '400', '500', '600', '700', '800'],
