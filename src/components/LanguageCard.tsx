@@ -13,10 +13,10 @@ export default function LanguageCard({ language, level, school }: LanguageCardPr
 
   // Determine color based on level
   let levelColor = "text-primary border-primary/30 bg-primary/10";
-  if (safeLevel.includes('A')) levelColor = "text-emerald-400 border-emerald-400/30 bg-emerald-400/10";
-  if (safeLevel.includes('B')) levelColor = "text-blue-400 border-blue-400/30 bg-blue-400/10";
-  if (safeLevel.includes('C')) levelColor = "text-purple-400 border-purple-400/30 bg-purple-400/10";
-  if (safeLevel.toLowerCase().includes('expert')) levelColor = "text-amber-400 border-amber-400/30 bg-amber-400/10";
+  if (safeLevel.includes('A')) levelColor = "text-emerald-700 dark:text-emerald-400 border-emerald-700/30 dark:border-emerald-400/30 bg-emerald-700/10 dark:bg-emerald-400/10";
+  if (safeLevel.includes('B')) levelColor = "text-blue-700 dark:text-blue-400 border-blue-700/30 dark:border-blue-400/30 bg-blue-700/10 dark:bg-blue-400/10";
+  if (safeLevel.includes('C')) levelColor = "text-purple-700 dark:text-purple-400 border-purple-700/30 dark:border-purple-400/30 bg-purple-700/10 dark:bg-purple-400/10";
+  if (safeLevel.toLowerCase().includes('expert')) levelColor = "text-amber-700 dark:text-amber-400 border-amber-700/30 dark:border-amber-400/30 bg-amber-700/10 dark:bg-amber-400/10";
 
   return (
     <div className="bg-panel border border-panel-border rounded-xl p-5 hover:border-primary hover:ring-2 hover:ring-primary/20 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 group flex flex-col justify-between h-full">

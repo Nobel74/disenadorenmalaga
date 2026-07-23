@@ -125,13 +125,12 @@ export default function SkillRing({ title, percentage, logoUrl, customColor }: S
       <div className="flex flex-col items-center justify-center w-full min-w-0">
         <p 
           className="text-xs sm:text-sm md:text-base font-bold text-foreground text-center transition-colors duration-300 leading-tight w-full break-words px-0.5 max-w-full"
-          style={{ color: isVisible ? 'var(--foreground)' : ringColor }}
         >
           {title}
         </p>
         <p 
-          className="font-bold mt-1 text-sm sm:text-base md:text-lg tabular-nums transition-colors duration-300"
-          style={{ color: ringColor }}
+          className="font-bold mt-1 text-sm sm:text-base md:text-lg tabular-nums transition-colors duration-300 text-foreground/80 dark:text-[var(--ring-color)]"
+          style={{ '--ring-color': ringColor } as React.CSSProperties}
         >
           {currentPercent}%
         </p>

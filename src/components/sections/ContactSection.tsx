@@ -265,7 +265,7 @@ export default function ContactSection({ locale = 'es' }: { locale?: string }) {
                   onChange={handleChange}
                   className="mt-1 w-4 h-4 rounded border-panel-border text-primary bg-background focus:ring-primary/20 accent-primary cursor-pointer"
                 />
-                <label htmlFor="privacidad" className="text-xs text-muted/80 leading-relaxed cursor-pointer select-none">
+                <label htmlFor="privacidad" className="text-xs text-muted leading-relaxed cursor-pointer select-none">
                   {t.GDPRCheckbox}<Link href={locale === 'en' ? '/en/privacy-policy' : '/es/politica-privacidad'} className="text-primary hover:underline font-semibold">{t.GDPRLink}</Link>{t.GDPRFinal}
                 </label>
               </div>
