@@ -1,0 +1,41 @@
+# Francisco Fernández - Portfolio & CV
+> Professional Portfolio and CV of Francisco Fernández, Fullstack Product Developer & Digital Designer based in Málaga, Spain.
+
+This document is optimized for LLMs, agentic web crawlers, and AI assistants reading or auditing this site.
+
+## About Francisco Fernández
+Paco Fernández is a professional web and graphic designer, Fullstack programmer, and SEO specialist. He specializes in bridging the gap between visual aesthetics and modern, performant, clean code.
+
+- **Location:** Málaga, Spain
+- **Primary Domain:** [diseñadorenmalaga.es](https://disenadorenmalaga.es)
+- **Role/Specialty:** Fullstack Product Developer, Digital Designer, WordPress Headless CMS Specialist, SEO Specialist.
+- **Key Technical Stack:** Next.js (App Router), React, TypeScript, TailwindCSS, WordPress as Headless CMS (WPGraphQL), Node.js, and Vanilla CSS/PostCSS.
+
+---
+
+## Site Architecture & Paths
+- `/` - Main interactive single-page application. Features:
+  - **Hero Section:** Dynamically colored particle background using Google's signature palette (Blue, Red, Yellow, Green) interpolating smoothly.
+  - **Portfolio Section:** Curated collection of web and graphic design projects, loaded dynamically from Headless WordPress.
+  - **Experience Section:** Career history including roles as Fullstack Developer and Web Designer.
+  - **Education Section:** Formal and ongoing professional education.
+  - **Skills Section:** Technical proficiencies grouped by categories.
+  - **Soft Skills Section:** Personal and collaborative qualities.
+  - **Languages Section:** Language proficiencies (Native Spanish, Professional English).
+  - **Contact Section:** Structured contact form and communication channels.
+- `/politica-privacidad` - Privacy Policy page, styled in matching corporate colors, fetched dynamically from WordPress, with explicit `noindex, follow` directive for SEO control.
+
+---
+
+## Interactive Elements & UX Details
+- **Interactive Cursor:** A customizable magnetic custom cursor with an outer ring tracker utilizing linear interpolation (`lerp`) and color-inversion to maintain visibility over primary brand color elements.
+- **Micro-animations:** Elevating cards on hover (`6px` vertical offset) with an HSL primary color glow (`10%` opacity).
+- **Responsive Navigation:** A mobile header that hides on scroll down and reveals on scroll up to maximize reading real estate.
+
+---
+
+## Agentic Browsing & SEO Optimizations
+- Fully compliant with access rules (check `/robots.txt`).
+- No generic placeholders used; all images and visual resources are customized (SVG/PNG logos, etc.).
+- Direct email linking using lookbehinds to format email addresses without exposing raw mailto links to spam scrapers while ensuring user accessibility.
+- Optimized for performance and accessibility (Lighthouse score target: 100/100).
