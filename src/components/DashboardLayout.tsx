@@ -247,6 +247,8 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
             <img 
               src="/Imagotipo.svg" 
               alt={t.logoAlt} 
+              width={80}
+              height={80}
               className="w-full h-full object-contain" 
             />
           </div>
@@ -392,6 +394,8 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
                 : "/New-Logo-Web-FF-W.svg"
               } 
               alt={userName} 
+              width={180}
+              height={48}
               className="h-full w-auto object-contain" 
             />
           </div>

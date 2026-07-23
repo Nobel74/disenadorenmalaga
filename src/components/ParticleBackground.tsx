@@ -223,7 +223,12 @@ export default function ParticleBackground() {
       animationFrameId = requestAnimationFrame(animate);
     };
 
-    animate();
+    // Defer background animation loop to free the main thread during initial page render
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      window.requestIdleCallback(() => animate());
+    } else {
+      setTimeout(animate, 200);
+    }
 
     return () => {
       cancelAnimationFrame(animationFrameId);

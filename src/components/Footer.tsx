@@ -38,6 +38,8 @@ export default function Footer({ userName = "Francisco Fernández", locale = "es
           <img 
             src="/Imagotipo.svg" 
             alt={`Logo ${userName}`} 
+            width={64}
+            height={64}
             className="w-full h-full object-contain" 
           />
         </div>
