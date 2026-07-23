@@ -1,4 +1,8 @@
-import ParticleBackground from '@/components/ParticleBackground';
+import dynamic from 'next/dynamic';
+
+const ParticleBackground = dynamic(() => import('@/components/ParticleBackground'), {
+  ssr: false,
+});
 
 interface HeroSectionProps {
   userName: string;

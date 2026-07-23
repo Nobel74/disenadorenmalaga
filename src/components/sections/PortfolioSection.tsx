@@ -3,7 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import { Briefcase, ChevronLeft, ChevronRight } from 'lucide-react';
 import PortfolioCard from '../PortfolioCard';
-import LightboxModal from '../LightboxModal';
+import dynamic from 'next/dynamic';
+
+const LightboxModal = dynamic(() => import('../LightboxModal'), {
+  ssr: false,
+});
 
 interface PortfolioSectionProps {
   proyectos: any[];
