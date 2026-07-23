@@ -19,7 +19,7 @@ export default async function CookiesPolicyPage({ params }: { params: Promise<{ 
   const { locale } = await params;
 
   // Intentamos obtener el contenido traducido desde WordPress según el locale
-  const slug = locale === 'en' ? '/en/cookies-policy/' : '/politica-cookies/';
+  const slug = locale === 'en' ? '/en/cookies-policy/' : '/politica-de-cookies/';
   const pageData = await getPageBySlug(slug);
 
   const defaultContentEs = `
