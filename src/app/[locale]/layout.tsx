@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Barlow } from "next/font/google";
 import "../globals.css";
 import CustomCursor from "@/components/CustomCursor";
+import JsonLdPerson from "@/components/JsonLdPerson";
 
 const barlow = Barlow({
   weight: ['300', '400', '500', '600', '700', '800'],
@@ -58,6 +59,11 @@ export default async function RootLayout({
       <head>
         <link rel="icon" href="/favicon.png" type="image/png" />
         <link rel="apple-touch-icon" href="/favicon.png" type="image/png" />
+        <JsonLdPerson 
+          name="Francisco Fernández"
+          jobTitle="Fullstack Product Developer & Digital Designer"
+          url="https://disenadorenmalaga.es"
+        />
       </head>
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground">
         <CustomCursor />
