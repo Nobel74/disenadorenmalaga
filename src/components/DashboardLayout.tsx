@@ -427,7 +427,7 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
 
         {/* Menú Desplegable que empujará el contenido inferior al abrirse */}
         <div className={`overflow-hidden transition-all duration-300 ease-in-out border-panel-border bg-panel ${
-          isMenuOpen ? 'max-h-[450px] opacity-100 py-4 border-t' : 'max-h-0 opacity-0 py-0'
+          isMenuOpen ? 'max-h-[520px] opacity-100 py-4 border-t' : 'max-h-0 opacity-0 py-0'
         }`}>
           <nav className="flex flex-col px-6 space-y-1">
             <Link href={isMainPage ? '#proyectos' : `${mainPath}#proyectos`} onClick={(e) => handleMobileLinkClick(e, 'proyectos')} className="flex items-center gap-3 py-3 text-muted hover:text-primary transition-colors">
@@ -458,6 +458,51 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
               <Mail size={18} />
               <span className="font-medium">{t.contacto}</span>
             </Link>
+
+            {/* Enlaces a Redes Sociales para Móvil / Tablet Vertical */}
+            <div className="flex justify-center gap-6 pt-4 mt-2 border-t border-panel-border/50">
+              <a 
+                href="https://github.com/Nobel74" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-muted hover:text-primary hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center p-2 bg-panel-border/30 rounded-full hover:bg-primary/10 group"
+                aria-label={t.githubAlt}
+              >
+                <svg
+                  className="w-6 h-6 text-muted group-hover:text-primary transition-colors"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <mask id="github-mask-mobile">
+                      <rect width="24" height="24" fill="white" />
+                      <g transform="translate(3, 3) scale(0.75)">
+                        <path
+                          d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+                          fill="black"
+                        />
+                      </g>
+                    </mask>
+                  </defs>
+                  <circle cx="12" cy="12" r="12" fill="currentColor" mask="url(#github-mask-mobile)" />
+                </svg>
+              </a>
+              <a 
+                href="https://www.linkedin.com/in/franciscofernandezrodriguez/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-muted hover:text-primary hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center p-2 bg-panel-border/30 rounded-full hover:bg-primary/10 group"
+                aria-label={t.linkedinAlt}
+              >
+                <svg
+                  className="w-6 h-6 fill-current text-muted group-hover:text-primary transition-colors"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                </svg>
+              </a>
+            </div>
           </nav>
         </div>
       </header>
@@ -465,7 +510,7 @@ export default function DashboardLayout({ children, userName = "Paco Fernández"
       {/* Main Content (con margen y padding adaptativos a la izquierda y arriba) */}
       <main 
         className="flex-1 p-6 pb-0 md:p-8 md:pb-0 lg:p-12 lg:pb-0 md:ml-64 min-w-0 transition-all duration-300 pt-[88px] md:pt-8 flex flex-col justify-between"
-        style={{ paddingTop: isMenuOpen ? '460px' : '' }}
+        style={{ paddingTop: isMenuOpen ? '530px' : '' }}
       >
         <div className="flex-1">
           {children}
