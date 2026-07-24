@@ -97,11 +97,7 @@ export default function ContactSection({ locale = 'es' }: { locale?: string }) {
     setStatus('loading');
 
     try {
-      const wpApiUrl = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://api.disenadorenmalaga.es/graphql';
-      // Construimos el endpoint REST a partir de la URL GraphQL de WP
-      const restUrl = wpApiUrl.replace('/graphql', '/wp-json/custom/v1/contact');
-
-      const res = await fetch(restUrl, {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -68,6 +68,9 @@ const nextConfig: NextConfig = {
   experimental: {
     inlineCss: true,
   },
+  turbopack: {
+    root: process.cwd(),
+  },
   images: {
     remotePatterns: [
       {

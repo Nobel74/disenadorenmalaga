@@ -78,6 +78,20 @@ export default async function CookiesPolicyPage({ params }: { params: Promise<{ 
           <td>Sesión</td>
           <td>Preferencia</td>
         </tr>
+        <tr>
+          <td><strong>_ga</strong></td>
+          <td>Google Analytics</td>
+          <td>Identifica de forma anónima a los usuarios únicos para recopilar estadísticas de visita.</td>
+          <td>2 años</td>
+          <td>Analítica (Terceros)</td>
+        </tr>
+        <tr>
+          <td><strong>_ga_5K6PQJ8X</strong></td>
+          <td>Google Analytics</td>
+          <td>Mantiene el estado y la sesión de navegación del usuario en la web.</td>
+          <td>2 años</td>
+          <td>Analítica (Terceros)</td>
+        </tr>
       </tbody>
     </table>
 
@@ -140,6 +154,20 @@ export default async function CookiesPolicyPage({ params }: { params: Promise<{ 
           <td>Remembers the active language (Spanish or English).</td>
           <td>Session</td>
           <td>Preference</td>
+        </tr>
+        <tr>
+          <td><strong>_ga</strong></td>
+          <td>Google Analytics</td>
+          <td>Anonymously identifies unique users to collect visit statistics.</td>
+          <td>2 years</td>
+          <td>Analytics (Third-party)</td>
+        </tr>
+        <tr>
+          <td><strong>_ga_5K6PQJ8X</strong></td>
+          <td>Google Analytics</td>
+          <td>Maintains the user's browsing session state on the website.</td>
+          <td>2 years</td>
+          <td>Analytics (Third-party)</td>
         </tr>
       </tbody>
     </table>

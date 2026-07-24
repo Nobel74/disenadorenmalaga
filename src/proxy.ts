@@ -5,7 +5,7 @@ const PUBLIC_FILE = /\.(.*)$/;
 const LOCALES = ['es', 'en'];
 const DEFAULT_LOCALE = 'es';
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Evitar interceptar archivos estáticos o llamadas internas de Next.js
