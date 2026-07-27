@@ -6,14 +6,28 @@ import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
 
-export const metadata: Metadata = {
-  title: 'Política de Cookies - Francisco Fernández',
-  description: 'Información sobre el uso y configuración de cookies en este sitio web.',
-  robots: {
-    index: false,
-    follow: true,
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const canonicalPath = locale === 'en' ? '/en/cookies-policy' : '/es/politica-de-cookies';
+
+  return {
+    title: locale === 'en' ? 'Cookies Policy - Francisco Fernández' : 'Política de Cookies - Francisco Fernández',
+    description: locale === 'en'
+      ? 'Information about the use and configuration of cookies on this website.'
+      : 'Información sobre el uso y configuración de cookies en este sitio web.',
+    robots: {
+      index: false,
+      follow: true,
+    },
+    alternates: {
+      canonical: canonicalPath,
+    },
+  };
+}
 
 export default async function CookiesPolicyPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;

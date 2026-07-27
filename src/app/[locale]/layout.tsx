@@ -31,6 +31,7 @@ export async function generateMetadata({
   };
 
   return {
+    metadataBase: new URL('https://www.disenadorenmalaga.es'),
     title: titles[locale === 'en' ? 'en' : 'es'],
     description: descriptions[locale === 'en' ? 'en' : 'es'],
     icons: {
@@ -43,6 +44,9 @@ export async function generateMetadata({
     },
     verification: {
       google: 'BgeDtshMSEYU2xPKpc1bER7RkTa1BuPnWt1Q_OXh0Oc'
+    },
+    alternates: {
+      canonical: `/${locale}`
     }
   };
 }

@@ -6,14 +6,28 @@ import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
 
-export const metadata: Metadata = {
-  title: 'Política de Privacidad - Francisco Fernández',
-  description: 'Información sobre el tratamiento de los datos personales.',
-  robots: {
-    index: false,
-    follow: true,
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const canonicalPath = locale === 'en' ? '/en/privacy-policy' : '/es/politica-privacidad';
+
+  return {
+    title: locale === 'en' ? 'Privacy Policy - Francisco Fernández' : 'Política de Privacidad - Francisco Fernández',
+    description: locale === 'en'
+      ? 'Information about the processing of personal data.'
+      : 'Información sobre el tratamiento de los datos personales.',
+    robots: {
+      index: false,
+      follow: true,
+    },
+    alternates: {
+      canonical: canonicalPath,
+    },
+  };
+}
 
 export default async function PrivacyPolicyPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
