@@ -1,41 +1,71 @@
 # Francisco Fernández - Portfolio & CV
-> Professional Portfolio and CV of Francisco Fernández, Fullstack Product Developer & Digital Designer based in Málaga, Spain.
 
-This document is optimized for LLMs, agentic web crawlers, and AI assistants reading or auditing this site.
+> Professional Portfolio and CV of Francisco Fernández, Senior Fullstack Product Developer, Digital Designer & Marketing Strategist based in Málaga, Spain (Available for Remote / International work).
+> Portfolio profesional y CV de Francisco Fernández: Desarrollador de Producto Fullstack, Diseñador Digital y Estratega de Marketing en Málaga, España (Disponible para trabajo en remoto internacional).
 
-## About Francisco Fernández
-Paco Fernández is a professional web and graphic designer, Fullstack programmer, and SEO specialist. He specializes in bridging the gap between visual aesthetics and modern, performant, clean code.
+This document is optimized for LLMs, agentic web crawlers, and AI assistants reading, indexing, or auditing this site. Este documento proporciona un índice limpio y estructurado en Markdown para facilitar el procesamiento por modelos de lenguaje e interfaces agénticas.
 
-- **Location:** Málaga, Spain
-- **Primary Domain:** [diseñadorenmalaga.es](https://disenadorenmalaga.es)
-- **Role/Specialty:** Fullstack Product Developer, Digital Designer, WordPress Headless CMS Specialist, SEO Specialist.
-- **Key Technical Stack:** Next.js (App Router), React, TypeScript, TailwindCSS, WordPress as Headless CMS (WPGraphQL), Node.js, and Vanilla CSS/PostCSS.
+## Core Profile / Perfil Principal
+
+Paco Fernández bridges the gap between visual aesthetics, online marketing, and modern performant code. He specializes in agile development methodologies (Vibe Coding) using Next.js, TypeScript, and WordPress as a Headless CMS (WPGraphQL / REST API).
+
+- **Location / Ubicación:** Málaga, Spain / Remoto (Internacional)
+- **Primary Domain / Dominio:** [disenadorenmalaga.es](https://www.disenadorenmalaga.es)
+- **Contact / Contacto:** info@disenadorenmalaga.es
+- **Roles:** Fullstack Product Developer, Digital Designer, Headless WordPress Architect, Online Marketing & SEO Specialist.
+- **Key Technical Stack:** Next.js (App Router), React, TypeScript, TailwindCSS, Headless WordPress (WPGraphQL / REST API), Node.js, PostCSS.
+- **AI & Vibe Coding:** Google AI Professional Certified, AI for App Building, Agentic workflows, Gemini, OpenAI, Qwen.
+- **Marketing & Analytics:** Google Tag Manager, Google Analytics 4 (Consent Mode v2), SemRush, Looker Studio, SEO técnico.
+- **Profiles / Enlaces:** [GitHub](https://github.com/Nobel74) | [LinkedIn](https://www.linkedin.com/in/franciscofernandezrodriguez/)
+
+---
+
+## Core Documentation & URLs
+
+- [Portfolio en Español](https://www.disenadorenmalaga.es/es): Versión principal del sitio interactivo con proyectos, experiencia, habilidades y contacto.
+- [Portfolio in English](https://www.disenadorenmalaga.es/en): International version tailored for global recruiters and partners.
+- [Currículum Vitae (Markdown)](https://www.disenadorenmalaga.es/cv-francisco-fernandez.md): Complete curriculum vitae in plain Markdown text.
+- [Specialized CVs (Markdown)](https://www.disenadorenmalaga.es/cvs-especializados-francisco-fernandez.md): Four targeted resumes.
 
 ---
 
 ## Site Architecture & Paths
-- `/` - Main interactive single-page application. Features:
-  - **Hero Section:** Dynamically colored particle background using Google's signature palette (Blue, Red, Yellow, Green) interpolating smoothly.
+
+- `/es` & `/en` - Main interactive single-page application (SPA) featuring:
+  - **Hero Section:** Dynamically colored particle background using brand palette interpolating smoothly.
   - **Portfolio Section:** Curated collection of web and graphic design projects, loaded dynamically from Headless WordPress.
-  - **Experience Section:** Career history including roles as Fullstack Developer and Web Designer.
-  - **Education Section:** Formal and ongoing professional education.
-  - **Skills Section:** Technical proficiencies grouped by categories.
-  - **Soft Skills Section:** Personal and collaborative qualities.
-  - **Languages Section:** Language proficiencies (Native Spanish, Professional English).
-  - **Contact Section:** Structured contact form and communication channels.
-- `/politica-privacidad` - Privacy Policy page, styled in matching corporate colors, fetched dynamically from WordPress, with explicit `noindex, follow` directive for SEO control.
+  - **Experience Section:** Detailed career history across marketing direction, web engineering, and digital design.
+  - **Education Section:** Formal IT degree (F.P. II Informática de Gestión) and continuous certifications (Google AI Professional, Frontend Master).
+  - **Skills Section:** Technical proficiencies grouped by development, AI, online marketing, and graphic design.
+  - **Soft Skills Section:** Communication, problem-solving, analytical mindset, and team collaboration.
+  - **Languages Section:** Native Spanish, Professional English (C1).
+  - **Contact Section:** Structured contact form, direct email channels, and digital vCard (.vcf) download.
+- `/es/politica-privacidad` & `/en/privacy-policy` - Privacy policy pages styled in corporate colors, dynamically fetched with explicit noindex, follow directives.
+
+---
+
+## Featured Projects / Proyectos Destacados
+
+- [ME-SIM.COM](https://www.disenadorenmalaga.es/es#proyectos): eSIM marketplace for travelers and digital nomads. Dynamic API parsing from supplier to frontend (WordPress, WooCommerce, JetEngine, Polylang).
+- [Sergio Molina Masajista](https://www.disenadorenmalaga.es/es#proyectos): Health and wellness web platform focused on UX, local SEO, and client acquisition (WordPress, Elementor, Polylang).
+- [MalagaCert](https://www.disenadorenmalaga.es/es#proyectos): High-conversion educational portal featuring dynamic exam schedules and lead capture (WooCommerce, JetEngine, Elementor).
+- [David Sancho](https://www.disenadorenmalaga.es/es#proyectos): Digital art gallery and archive for the painter David Sancho (WordPress, Elementor).
+- [Pistamancha](https://www.disenadorenmalaga.es/es#proyectos): Corporate international web platform developed at AcciónMK (WordPress, Elementor).
+- [Federación Andaluza de Marketing](https://www.disenadorenmalaga.es/es#proyectos): Institutional portal unifying marketing clubs in Andalusia (WordPress, Divi).
 
 ---
 
 ## Interactive Elements & UX Details
-- **Interactive Cursor:** A customizable magnetic custom cursor with an outer ring tracker utilizing linear interpolation (`lerp`) and color-inversion to maintain visibility over primary brand color elements.
-- **Micro-animations:** Elevating cards on hover (`6px` vertical offset) with an HSL primary color glow (`10%` opacity).
-- **Responsive Navigation:** A mobile header that hides on scroll down and reveals on scroll up to maximize reading real estate.
+
+- **Interactive Cursor:** Magnetic custom cursor with an outer ring tracker utilizing linear interpolation (`lerp`) and color-inversion over primary brand elements.
+- **Micro-animations:** Card elevation on hover (`6px` vertical offset) with an HSL primary color glow (`10%` opacity).
+- **Responsive Navigation:** Intelligent mobile header that conceals on scroll-down and reveals on scroll-up to maximize reading space.
 
 ---
 
-## Agentic Browsing & SEO Optimizations
-- Fully compliant with access rules (check `/robots.txt`).
-- No generic placeholders used; all images and visual resources are customized (SVG/PNG logos, etc.).
-- Direct email linking using lookbehinds to format email addresses without exposing raw mailto links to spam scrapers while ensuring user accessibility.
-- Optimized for performance and accessibility (Lighthouse score target: 100/100).
+## Agentic Browsing, Performance & SEO Optimizations
+
+- **Agentic Navigation Audit:** Scored a perfect **3/3 in Agentic Navigation** in technical audits, ensuring friction-free parsing for autonomous web agents.
+- **Lighthouse Performance:** Top-tier audit metrics with **100/100 in Performance**, **96/100 in Accessibility**, **100/100 in Best Practices**, and **100/100 in SEO**.
+- **Robots & Canonical Directives:** Fully compliant with crawler directives (`/robots.txt`) and explicit self-referential canonical tags to prevent duplicate content.
+- **Privacy & Security:** Google Consent Mode v2 integration and strict Content Security Policy (CSP).
